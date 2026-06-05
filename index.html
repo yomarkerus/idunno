@@ -47,19 +47,25 @@ body{
 
 /* ── TOPBAR ── */
 .topbar{
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;
   padding:22px 0 20px;
   border-bottom:1px solid var(--border-dim);
   margin-bottom:36px;
 }
 .topbar-title{
   font-family:'Fredoka One',cursive;font-weight:400;
-  font-size:clamp(18px,3vw,28px);
+  font-size:clamp(14px,2vw,22px);
   letter-spacing:.08em;line-height:1.1;
+  white-space:nowrap;flex-shrink:0;
   background:linear-gradient(120deg,var(--purple),var(--blue) 55%,var(--pink));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.topbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.topbar-right{display:flex;gap:8px;align-items:center;flex-wrap:nowrap;overflow-x:auto}
+@media(max-width:820px){
+  .topbar{flex-wrap:wrap}
+  .topbar-title{font-size:clamp(16px,4vw,22px);white-space:normal}
+  .topbar-right{flex-wrap:wrap}
+}
 .btn{
   background:transparent;border:1px solid var(--border);color:var(--text-dim);
   padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:10px;
@@ -1204,7 +1210,7 @@ footer .dot{color:var(--purple);margin:0 8px}
 // ────────────────────────────────────────────
 const TWO_WORD = {
   'bunny b':'BunnyBurrow','bunny burrow':'BunnyBurrow','egg bask':'EggbaskStem',
-  'garden wizard':'GardenWizard','rb conf':'RainbowConf','rainbow conf':'RainbowConf',
+  'garden wizard':'GardenWizard','garden wiz':'GardenWizard','rb conf':'RainbowConf','rainbow conf':'RainbowConf',
   'speed shoot':'SpeedShoot','subzero stem':'SubzeroStem','iced prism':'IcedPrism',
   'ice dragon':'IceDragon','banana peel':'BananaPeel','watering can':'WateringCan',
   'holo clover':'HoloClover','chicken coop':'ChickenCoop','fungal barr':'FungalBarr',
@@ -1223,7 +1229,7 @@ const SINGLE = {
   'rainbowconf':'RainbowConf','rb':'RainbowConf',
   'teslaflora':'Teslaflora','telsa':'Teslaflora','tesla':'Teslaflora',
   'snowmob':'Snowmobile','snowmobile':'Snowmobile',
-  'gardenwizard':'GardenWizard','ooga':'OogaBooga','oogabooga':'OogaBooga',
+  'gardenwizard':'GardenWizard','gardenwiz':'GardenWizard','ooga':'OogaBooga','oogabooga':'OogaBooga',
   'infectia':'Infectia','starbud':'Starbud','blinkbloom':'Blinkbloom',
   'glowthorn':'Glowthorn','prismleaf':'Prismleaf','speedshoot':'SpeedShoot',
   'subzerostem':'SubzeroStem','icedprism':'IcedPrism','firecore':'Firecore',

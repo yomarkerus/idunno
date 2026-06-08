@@ -545,7 +545,7 @@ footer .dot{color:var(--purple);margin:0 8px}
 <script>
 // ── LOCK SCREEN LOGIC ──
 // Password is fetched from a secret GitHub Gist updated daily by the bot.
-const GIST_API_URL = 'https://api.github.com/gists/128b31012191186b9bd6c0322eebbf58';
+const GIST_RAW_URL = 'https://gist.githubusercontent.com/DaederTot/128b31012191186b9bd6c0322eebbf58/raw/gtd_password.txt';
 const LS_AUTH_KEY  = 'gtd_auth_token';
 const LS_AUTH_DATE = 'gtd_auth_date';
 
@@ -574,13 +574,12 @@ async function tryUnlock() {
 
   try {
     // Fetch today's password from the gist (cache-busted)
-    const resp = await fetch(GIST_API_URL, {
-      headers: { 'Accept': 'application/vnd.github+json' },
-      cache: 'no-store'
+    const resp = await fetch(GIST_RAW_URL + '?t=' + Date.now(), {
+      cache: 'no-store',
+      headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' }
     });
     if (!resp.ok) throw new Error('fetch failed');
-    const json = await resp.json();
-    const text = json.files['gtd_password.txt'].content.trim();
+    const text = (await resp.text()).trim();
 
     if (typed === text) {
       localStorage.setItem(LS_AUTH_KEY,  'unlocked');

@@ -1970,15 +1970,8 @@ function rebuildUnits() {
       el2.appendChild(btn);
     });
   } else {
-    // Tab 1 chips
-    const s = new Set(KEY_UNITS);
-    allObs().forEach(o => o.units.forEach(u => s.add(u)));
-    // Remove no-space/alias duplicates — canonical spaced versions already in KEY_UNITS
-    ['BunnyBurrow','Glowthorn','EggbaskStem','OogaBooga','DistortFlower','FrostGolem',
-     'Hypnogaze','HypnogazeS','Shockoflora','ShockolateFlora','RainbowConf','VineHair',
-     'BounceShroom','SubzeroStem','FestiveGlowthorn','SnowmobileShoveler',
-     'Blink','Treasure','TreasureTrap'].forEach(d => s.delete(d));
-    ALL_UNITS = Array.from(s).filter(u => !TAB1_ALWAYS_BANNED.has(u)).sort();
+    // Tab 1 chips — only show KEY_UNITS (no obs injection)
+    ALL_UNITS = KEY_UNITS.filter(u => !TAB1_ALWAYS_BANNED.has(u));
     const el = document.getElementById('chips');
     el.innerHTML = '';
     ALL_UNITS.forEach(u => {
@@ -2114,7 +2107,7 @@ function refreshUI() {
 //   Glowthorn · Hypnogaze(→Vine Hair) · Egg Bask · Confusi · Bounce Shroom
 //   with their own chains:
 //     Glowthorn chain: Snowmob → Starbud → Blinkbloom → Regen Flower
-//     Vine Hair slot:  Hypnogaze → Distort Flower → RB Conf → Vine Hair → Bubbloom → Fan Flower
+//     Vine Hair slot:  Vine Hair → Bubbloom → Fan Flower → Hypnogaze → Distort Flower
 //     Egg Bask chain:  Subzero → Frost Golem → Ooga → Distort → Winterray
 //     Confusi chain:   RB Conf → Bubbloom → ERose
 //     Bounce chain:    Octoshroom → Distort → Firecore
@@ -2211,9 +2204,9 @@ function getRecommendedTeam() {
     const glowtChain = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower'];
     const glowt = pick('Festive Glowthorn', glowtChain, 'Glowthorn');
 
-    // Vine Hair chain: Distort Flower → Iced Prismflower → Vine Hair → Hypnogaze Stem → Bubbloom → Fan Flower
-    const vineChain = ['Iced Prismflower','Vine Hair','Hypnogaze Stem','Bubbloom','Fan Flower'];
-    const vine = pick('Distort Flower', vineChain, 'Vine Hair');
+    // Vine Hair chain: Vine Hair → Bubbloom → Fan Flower → Hypnogaze Stem → Distort Flower
+    const vineChain = ['Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
+    const vine = pick('Vine Hair', vineChain, 'Vine Hair');
 
     // Egg Bask chain: Egg Bask → Subzero → Frost Golem → Ooga → Distort → Winterray
     const eggChainFour = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
@@ -2248,8 +2241,8 @@ function getRecommendedTeam() {
     const egg3 = pick('Egg Basket Stem', eggChain3, 'Egg Basket');
     const confuChain3 = ['Rainbow Confusion Plant','Bubbloom','ERose'];
     const confu3 = pick('Confusiflora', confuChain3, 'Confusiflora');
-    const vineChain3 = ['Iced Prismflower','Vine Hair','Hypnogaze Stem','Bubbloom','Fan Flower'];
-    const vine3 = pick('Distort Flower', vineChain3, 'Vine Hair');
+    const vineChain3 = ['Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
+    const vine3 = pick('Vine Hair', vineChain3, 'Vine Hair');
     return {
       units: [snow, keySlot, egg3, confu3, vine3],
       note: '3 of Big Four banned → Snow · ' + keySlot + ' · Egg Basket · Confusi · Vine Hair' +
@@ -2272,8 +2265,8 @@ function getRecommendedTeam() {
     const eggBI = pick('Egg Basket Stem', eggChainBI, 'Egg Basket');
     const confuChainBI = ['Rainbow Confusion Plant','Bubbloom','Fan Flower'];
     const confuBI = pick('Confusiflora', confuChainBI, 'Confusiflora');
-    // Vine Hair chain: Vine Hair → Bubbloom → Fan Flower → ERose
-    const vineChainBI = ['Bubbloom','Fan Flower','ERose'];
+    // Vine Hair chain: Vine Hair → Bubbloom → Fan Flower → Hypnogaze Stem → Distort Flower
+    const vineChainBI = ['Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
     const vineBI = pick('Vine Hair', vineChainBI, 'Vine Hair');
     return {
       units: [glowtBI, keyUnit, eggBI, confuBI, vineBI],

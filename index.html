@@ -1934,8 +1934,9 @@ function getRecommendedTeam() {
     const confuChainFour = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
     const confu = pick('Confusiflora', confuChainFour, 'Confusiflora');
 
-    // Bounce chain: Overlord Stem → Bounce Shroom → Winterray → Firecore → Octoshroom → Distort
-    const bounceChainFour = ['Bounce Shroom','Winterray','Firecore','Octoshroom','Distort Flower'];
+    // Bounce chain: Overlord Stem → Firecore → Bounce Shroom → Winterray → Octoshroom → Distort
+    // Firecore goes first here specifically — covers extra map area
+    const bounceChainFour = ['Firecore','Bounce Shroom','Winterray','Octoshroom','Distort Flower'];
     const bounce = pick('Overlord Stem', bounceChainFour, 'Bounce Shroom');
 
     return {
@@ -2077,7 +2078,7 @@ function getRecommendedTeam() {
   if (!hypnoBanned) {
     hypno = 'Hypnogaze Stem'; inUse.add(hypno);
   } else {
-    hypno = pick('Shockolate Flora', ['Teslaflora','Confusiflora','Bounce Shroom','Firecore','Octoshroom','Subzero Stem','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Hypno');
+    hypno = pick('Shockolate Flora', ['Teslaflora','Firecore','Bounce Shroom','Confusiflora','Octoshroom','Subzero Stem','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Hypno');
   }
 
   // Ooga slot (5th): Ooga → Distort → Frost Golem → Subzero → Winterray → Bounce → Firecore → Octo → Starbud → Blink → Regen

@@ -1795,7 +1795,9 @@ function refreshUI() {
 //
 // DEFAULT (none banned): Snow · Infectia · Bunny B · Hypno · Ooga
 //
-// Infectia+BunnyB banned:  Snow · Shocko→Tesla · Egg Bask · Confusi · Subzero
+// Only Bunny B banned:     Glowthorn · Shocko · Hypno · Ooga · Infectia
+// Only Infectia banned:    Glowthorn · Shocko · Hypno · Ooga · Bunny B
+// Infectia+BunnyB banned:  Glowthorn · Shocko · Egg Bask · Confusi · Vine Hair
 //   KEY_UNITS chain for that Shocko slot: Shocko → Tesla
 //
 // 3 of Big 4 banned:
@@ -1975,33 +1977,45 @@ function getRecommendedTeam() {
   }
 
   // ════════════════════════════════════════
-  // CASE: ONLY BUNNY B BANNED → Snow · Confusi · Egg Bask · Shocko · Infectia
-  // CASE: ONLY INFECTIA BANNED → Snow · Confusi · Egg Bask · Shocko · Bunny B
+  // CASE: ONLY BUNNY B BANNED → Glowthorn · Shocko · Hypno · Ooga · Infectia
+  // CASE: ONLY INFECTIA BANNED → Glowthorn · Shocko · Hypno · Ooga · Bunny B
   // ════════════════════════════════════════
   if (bunnyBanned && !infectiaBanned) {
-    inUse.add(snow);
-    const shocko = pick('Shockolate Flora', ['Teslaflora'], 'Shocko');
-    const confuChainSB = ['Rainbow Confusion Plant','Hypnogaze Stem','Vine Hair','Bubbloom','Fan Flower'];
-    const confuSB = pick('Confusiflora', confuChainSB, 'Confusiflora');
-    const eggChainSB = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
-    const eggSB = pick('Egg Basket Stem', eggChainSB, 'Egg Basket');
+    inUse.clear(); swaps.splice(0);
+    const glowtChainSB = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
+    const glowtSB = pick('Festive Glowthorn', glowtChainSB, 'Glowthorn');
+    const shockoSB = pick('Shockolate Flora', ['Teslaflora'], 'Shocko');
+    let hypnoSB;
+    if (!hypnoBanned) {
+      hypnoSB = 'Hypnogaze Stem'; inUse.add(hypnoSB);
+    } else {
+      hypnoSB = pick('Shockolate Flora', ['Teslaflora','Confusiflora','Bounce Shroom','Firecore','Octoshroom','Subzero Stem','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Hypno');
+    }
+    const oogaChainSB = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
+    const oogaSB = pick('Ooga Booga', oogaChainSB, 'Ooga');
     return {
-      units: [snow, confuSB, eggSB, shocko, 'Infectia'],
-      note: 'Bunny B banned → Snow · Confusi · Egg Bask · Shocko · Infectia' +
+      units: [glowtSB, shockoSB, hypnoSB, oogaSB, 'Infectia'],
+      note: 'Bunny B banned → Glowthorn · Shocko · Hypno · Ooga · Infectia' +
             (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
     };
   }
 
   if (infectiaBanned && !bunnyBanned) {
-    inUse.add(snow);
-    const shocko = pick('Shockolate Flora', ['Teslaflora'], 'Shocko');
-    const confuChainIB = ['Rainbow Confusion Plant','Hypnogaze Stem','Vine Hair','Bubbloom','Fan Flower'];
-    const confuIB = pick('Confusiflora', confuChainIB, 'Confusiflora');
-    const eggChainIB = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
-    const eggIB = pick('Egg Basket Stem', eggChainIB, 'Egg Basket');
+    inUse.clear(); swaps.splice(0);
+    const glowtChainIB = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
+    const glowtIB = pick('Festive Glowthorn', glowtChainIB, 'Glowthorn');
+    const shockoIB = pick('Shockolate Flora', ['Teslaflora'], 'Shocko');
+    let hypnoIB;
+    if (!hypnoBanned) {
+      hypnoIB = 'Hypnogaze Stem'; inUse.add(hypnoIB);
+    } else {
+      hypnoIB = pick('Shockolate Flora', ['Teslaflora','Confusiflora','Bounce Shroom','Firecore','Octoshroom','Subzero Stem','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Hypno');
+    }
+    const oogaChainIB = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
+    const oogaIB = pick('Ooga Booga', oogaChainIB, 'Ooga');
     return {
-      units: [snow, confuIB, eggIB, shocko, 'Bunny Burrow'],
-      note: 'Infectia banned → Snow · Confusi · Egg Bask · Shocko · Bunny B' +
+      units: [glowtIB, shockoIB, hypnoIB, oogaIB, 'Bunny Burrow'],
+      note: 'Infectia banned → Glowthorn · Shocko · Hypno · Ooga · Bunny B' +
             (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
     };
   }

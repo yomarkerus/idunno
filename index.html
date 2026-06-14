@@ -290,6 +290,18 @@ details summary:hover{color:var(--text-dim)}
 .players-toolbar-title{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--lavender);flex:1;min-width:120px}
 .no-players{text-align:center;padding:50px 20px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
 
+/* ── CREDITS VIEW ── */
+#view-credits{display:none}
+.credits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:32px}
+.credits-card{background:var(--surface-1);border:1px solid var(--border-dim);border-radius:10px;padding:28px 30px}
+.credits-card-title{font-family:'Fraunces',serif;font-size:22px;font-weight:800;color:var(--lavender);margin-bottom:6px}
+.credits-card-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px}
+.credits-thanks{font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:16px}
+.credits-names{display:flex;flex-wrap:wrap;gap:8px}
+.credit-name{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;padding:8px 14px;border-radius:6px;background:var(--surface-2);border:1px solid var(--border);color:var(--text)}
+.credit-name.staff{border-color:var(--blue-soft);color:var(--blue);background:var(--blue-glow)}
+.credit-name.meta{border-color:var(--purple-soft);color:var(--lavender);background:rgba(240,192,64,0.08)}
+
 /* ── GLOBAL STATS BAR ── */
 .global-stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--border-dim);border:1px solid var(--border-dim);border-radius:8px;overflow:hidden;margin-bottom:0}
 .global-stat{background:var(--surface-1);padding:18px 16px;text-align:center}
@@ -746,12 +758,19 @@ if (isAlreadyUnlocked()) {
       line-height:1.1;margin-top:2px;
     ">DO NOT REDISTRIBUTE</div>
   </div>
-  <div class="topbar-right">
-    <span class="sync-label">Synced: <span id="sync-time">—</span></span>
-    <button class="btn" id="refresh-btn" onclick="loadSheet()">↻ Refresh Sheet</button>
-    <button class="btn active" id="nav-predictor" onclick="showView('predictor')">⚔ Predictor</button>
-    <button class="btn" id="nav-data" onclick="showView('data')">📊 Tracked Data</button>
-    <button class="btn" id="nav-players" onclick="showView('players')">📈 Stats</button>
+  <div class="topbar-right" style="flex-direction:column;align-items:flex-end;gap:8px">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+      <span class="sync-label">Synced: <span id="sync-time">—</span></span>
+      <button class="btn" id="refresh-btn" onclick="loadSheet()">↻ Refresh Sheet</button>
+      <button class="btn active" id="nav-predictor" onclick="showView('predictor')">⚔ Predictor</button>
+      <button class="btn" id="nav-data" onclick="showView('data')">📊 Tracked Data</button>
+      <button class="btn" id="nav-players" onclick="showView('players')">📈 Stats</button>
+      <button class="btn" id="nav-credits" onclick="showView('credits')">✦ Credits</button>
+    </div>
+    <div id="predictor-tab-row" style="display:flex;gap:6px">
+      <button class="topbar-tab active" id="tab-1-btn" onclick="switchTab('tab1')">Tab 1</button>
+      <button class="topbar-tab" id="tab-2-btn" onclick="switchTab('tab2')">Tab 2</button>
+    </div>
   </div>
 </div>
 
@@ -765,7 +784,7 @@ if (isAlreadyUnlocked()) {
 
   <!-- PERMANENT BANS BANNER — TAB 1 -->
   <div id="always-banned-tab1" style="background:var(--surface-1);border:1px solid var(--pink-soft);border-radius:8px;padding:14px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);flex-shrink:0">⛔ Always Banned</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);flex-shrink:0">⛔ Always Banned · Tab 1</span>
     <div style="display:flex;flex-wrap:wrap;gap:6px">
       <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Transfig</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Witchleaf</span>
@@ -779,16 +798,16 @@ if (isAlreadyUnlocked()) {
 
   <!-- PERMANENT BANS BANNER — TAB 2 -->
   <div id="always-banned-tab2" style="background:var(--surface-1);border:1px solid var(--pink-soft);border-radius:8px;padding:14px 20px;margin-bottom:20px;display:none;flex-wrap:wrap;align-items:center;gap:10px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);flex-shrink:0">⛔ Always Banned</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);flex-shrink:0">⛔ Always Banned · Tab 2</span>
     <div style="display:flex;flex-wrap:wrap;gap:6px">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Bunny Burrow</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Egg Basket Stem</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Shockolate Flora</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Confusiflora</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Infectia</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Ice Dragon</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Cryolesia</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Teslaflora</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Treasure Trap</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Bunny Burrow</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Treasure Chest</span>
     </div>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto;opacity:.7">these 6 are always off the table for Tab 2</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto;opacity:.7">these 6 are always off the table</span>
   </div>
 
   <!-- STEP 1 -->
@@ -1035,6 +1054,38 @@ if (isAlreadyUnlocked()) {
   <div class="player-cards-grid" id="player-cards"></div>
 </div>
 
+<!-- ══════════════════════════════════════════ -->
+<!-- CREDITS VIEW                               -->
+<!-- ══════════════════════════════════════════ -->
+<div id="view-credits">
+  <div class="players-toolbar">
+    <div class="players-toolbar-title">Credits</div>
+    <span class="sync-label">Thank you to everyone who helped build this chart</span>
+  </div>
+
+  <div class="credits-grid">
+    <div class="credits-card">
+      <div class="credits-card-title">GTD PvP Staff</div>
+      <div class="credits-card-sub">Staff &amp; support</div>
+      <p class="credits-thanks">Special thanks to the GTD PvP staff for helping make this project possible.</p>
+      <div class="credits-names">
+        <span class="credit-name staff">t00nyink</span>
+        <span class="credit-name staff">Konold</span>
+      </div>
+    </div>
+
+    <div class="credits-card">
+      <div class="credits-card-title">Chart / Meta Help</div>
+      <div class="credits-card-sub">Strategy &amp; data guidance</div>
+      <p class="credits-thanks">Huge thanks for chart and meta help that shaped how this predictor works.</p>
+      <div class="credits-names">
+        <span class="credit-name meta">Fluttr</span>
+        <span class="credit-name meta">yosshi_shiotann1</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer>
   Garden Tower Defense PVP Chart
   <span class="dot">◆</span>
@@ -1207,8 +1258,8 @@ const SINGLE = {
   'shockshroom':'Shockshroom',
   // Vine Hair
   'vinehair':'VineHair','vine':'VineHair',
-  // Treasure Trap
-  'treasure':'TreasureTrap','treasuretrap':'TreasureTrap',
+  // Treasure Trap / Treasure Chest
+  'treasure':'TreasureTrap','treasuretrap':'TreasureTrap','treasurechest':'TreasureTrap',
   // Bubbloom
   'bubbloom':'Bubbloom','bubb':'Bubbloom',
   // Fan Flower
@@ -1613,7 +1664,7 @@ function switchTab(tab) {
 // ────────────────────────────────────────────
 // CHIPS — always show all key units + any from logs
 // ────────────────────────────────────────────
-// All units that matter for the decision tree (always shown as banning options)
+// All units that matter for the decision tree (Tab 1 — merged legacy Tab 1 + Tab 2 pools)
 const KEY_UNITS = [
   // Snow chain
   'Snowmobile Shoveler','Festive Glowthorn','Starbud','Blinkbloom',
@@ -1621,39 +1672,37 @@ const KEY_UNITS = [
   // Core flex
   'Hypnogaze Stem','Bunny Burrow','Infectia','Shockolate Flora','Teslaflora',
   // Egg/Ooga/Distort/Frost chain
-  'Egg Basket Stem','Ooga Booga','Distort Flower','Frost Golem',
+  'Egg Basket Stem','Ooga Booga','Distort Flower','Frost Golem','Subzero Stem',
   // Confu/Rainbow/VineHair/Bubbloom/Fan chain
   'Confusiflora','Rainbow Confusion Plant','Vine Hair','Bubbloom','Fan Flower',
   // Bounce/Octo chain
   'Overlord Stem','Bounce Shroom','Firecore','Octoshroom','Winterray',
-  // Tab 2 units — not in Tab 1 chip pool (Tab 1 always bans transfig/auranji/witchleaf anyway)
-  // 'Transfiguration Flower','Auranji','Witchleaf' removed — always banned in Tab 1
+  // Former Tab 2 units now in Tab 1 pool
+  'Transfiguration Flower','Auranji','Witch Leaf','ERose',
 ];
 
 // Units always banned in Tab 1 (never shown as banning chips, always excluded from its results)
 const TAB1_ALWAYS_BANNED = new Set([
-  'Transfig','Transfiguration Flower','Witchleaf','Witch Leaf','Auranji','Cryolesia','IceDragon','Ice Dragon','TreasureTrap','Treasure Trap','Treasure','Blink',
+  'Transfig','Transfiguration Flower','Witchleaf','Witch Leaf','Auranji','Cryolesia','IceDragon','Ice Dragon','TreasureTrap','Treasure Trap','Treasure','Treasure Chest','Blink',
 ]);
 // Units always banned in Tab 2 (never shown as banning chips, always excluded from its results)
 const TAB2_ALWAYS_BANNED = new Set([
-  'BunnyBurrow','Bunny Burrow','Infectia','IceDragon','Ice Dragon','Cryolesia','Teslaflora','TreasureTrap','Treasure Trap',
+  'EggBasketstem','Egg Basket Stem','Egg Basketstem','Shockolateflora','Shockolate Flora','Confusiflora','Infectia',
+  'BunnyBurrow','Bunny Burrow','TreasureTrap','Treasure Trap','Treasure','Treasure Chest','TreasureChest',
 ]);
 
 // Tab 2's selectable unit pool (units that can appear in Tab 2 chips)
 const KEY_UNITS_TAB2 = [
-  'Transfiguration Flower','Vine Hair','Witch Leaf',
-  'Egg Basket Stem','Auranji',
-  'Shockolate Flora','Overlord Stem','Bounce Shroom','Octoshroom','Firecore','Winterray',
-  'Confusiflora','Rainbow Confusion Plant','Bubbloom','Fan Flower',
-  'Ooga Booga','Distort Flower','Subzero Stem','Frost Golem',
-  'Snowmobile Shoveler','Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot',
-  'Hypnogaze Stem','ERose',
+  'Festive Glowthorn','Auranji','Teslaflora','Rainbow Confusion Plant','Transfiguration Flower',
+  'Bubbloom','Vine Hair','Cryolesia','Frost Golem','Ooga Booga','Winterray',
+  'Snowmobile Shoveler','Bounce Shroom',
+  'Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot','Fan Flower',
 ];
 
 function rebuildUnits() {
   if (ACTIVE_TAB === 'tab2') {
     // Tab 2 chips
-    const s2 = new Set(KEY_UNITS_TAB2);
+    const s2 = new Set(KEY_UNITS_TAB2.filter(u => !TAB2_ALWAYS_BANNED.has(u)));
     const el2 = document.getElementById('chips-tab2');
     el2.innerHTML = '';
     Array.from(s2).sort().forEach(u => {
@@ -1904,7 +1953,7 @@ function getRecommendedTeam() {
   // ── SPECIAL CASE: Tesla + Bunny Burrow + Infectia all banned (but Shocko still available) → use Tab 2 logic ──
   // If Shocko is also banned, fall through to the bigFourBanned >= 4 block (Vine Hair loadout) instead.
   if (teslaBanned && bunnyBanned && infectiaBanned && !shockoBanned) {
-    return getRecommendedTeam_Tab2(true);
+    return getLegacyTab2TeamForTab1();
   }
 
   // ── BIG FOUR BAN COUNT ──
@@ -1923,8 +1972,8 @@ function getRecommendedTeam() {
     const glowtChain = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower'];
     const glowt = pick('Festive Glowthorn', glowtChain, 'Glowthorn');
 
-    // Vine Hair chain: Vine Hair → Bubbloom → Fan Flower → Hypnogaze Stem → Distort Flower
-    const vineChain = ['Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
+    // Vine Hair chain: Vine Hair → Subzero Stem → Bubbloom → Fan Flower → Hypnogaze Stem → Distort Flower
+    const vineChain = ['Subzero Stem','Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
     const vine = pick('Vine Hair', vineChain, 'Vine Hair');
 
     // Egg Bask chain: Egg Bask → Subzero → Frost Golem → Ooga → Distort → Winterray
@@ -1963,7 +2012,7 @@ function getRecommendedTeam() {
     const egg3 = pick('Egg Basket Stem', eggChain3, 'Egg Basket');
     const confuChain3 = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
     const confu3 = pick('Confusiflora', confuChain3, 'Confusiflora');
-    const vineChain3 = ['Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
+    const vineChain3 = ['Subzero Stem','Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
     const vine3 = pick('Vine Hair', vineChain3, 'Vine Hair');
     return {
       units: [glowt3, keySlot, egg3, confu3, vine3],
@@ -2021,10 +2070,13 @@ function getRecommendedTeam() {
       hypnoSB = pick('Shockolate Flora', ['Teslaflora','Confusiflora','Bounce Shroom','Firecore','Octoshroom','Subzero Stem','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Hypno');
     }
     const oogaChainSB = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
-    const oogaSB = pick('Ooga Booga', oogaChainSB, 'Ooga');
+    // If Confusiflora is in the team, use Egg Basket Stem as the slow unit instead of Ooga
+    const slowSB = (hypnoSB === 'Confusiflora')
+      ? pick('Egg Basket Stem', ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket')
+      : pick('Ooga Booga', oogaChainSB, 'Ooga');
     return {
-      units: [glowtSB, shockoSB, hypnoSB, oogaSB, 'Infectia'],
-      note: 'Bunny B banned → Glowthorn · Shocko · Hypno · Ooga · Infectia' +
+      units: [glowtSB, shockoSB, hypnoSB, slowSB, 'Infectia'],
+      note: 'Bunny B banned → Glowthorn · Shocko · Hypno · ' + slowSB + ' · Infectia' +
             (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
     };
   }
@@ -2041,10 +2093,13 @@ function getRecommendedTeam() {
       hypnoIB = pick('Shockolate Flora', ['Teslaflora','Confusiflora','Bounce Shroom','Firecore','Octoshroom','Subzero Stem','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Hypno');
     }
     const oogaChainIB = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
-    const oogaIB = pick('Ooga Booga', oogaChainIB, 'Ooga');
+    // If Confusiflora is in the team, use Egg Basket Stem as the slow unit instead of Ooga
+    const slowIB = (hypnoIB === 'Confusiflora')
+      ? pick('Egg Basket Stem', ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket')
+      : pick('Ooga Booga', oogaChainIB, 'Ooga');
     return {
-      units: [glowtIB, shockoIB, hypnoIB, oogaIB, 'Bunny Burrow'],
-      note: 'Infectia banned → Glowthorn · Shocko · Hypno · Ooga · Bunny B' +
+      units: [glowtIB, shockoIB, hypnoIB, slowIB, 'Bunny Burrow'],
+      note: 'Infectia banned → Glowthorn · Shocko · Hypno · ' + slowIB + ' · Bunny B' +
             (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
     };
   }
@@ -2072,22 +2127,32 @@ function getRecommendedTeam() {
     bunny = pick('Shockolate Flora', ['Teslaflora'], 'Bunny B');
   }
 
-  // Hypno slot chain: Hypno → Shocko → Tesla
+  // Vine Hair slot (was Hypno): Vine Hair → Subzero Stem → Hypnogaze Stem → Shocko → Tesla
   // If Shocko/Tesla already taken by Infectia/Bunny above, pick() skips them via inUse.
   // Extended with non-flex fallbacks so a unit always resolves.
   let hypno;
-  if (!hypnoBanned) {
+  if (!vineHairBanned) {
+    hypno = 'Vine Hair'; inUse.add(hypno);
+  } else if (!subzeroBanned) {
+    hypno = 'Subzero Stem'; inUse.add(hypno);
+  } else if (!hypnoBanned) {
     hypno = 'Hypnogaze Stem'; inUse.add(hypno);
   } else {
-    hypno = pick('Shockolate Flora', ['Teslaflora','Firecore','Bounce Shroom','Confusiflora','Octoshroom','Subzero Stem','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Hypno');
+    hypno = pick('Shockolate Flora', ['Teslaflora','Firecore','Bounce Shroom','Confusiflora','Octoshroom','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Vine Hair');
   }
 
   // Ooga slot (5th): Ooga → Distort → Frost Golem → Subzero → Winterray → Bounce → Firecore → Octo → Starbud → Blink → Regen
-  // Special: if both Ooga AND Distort are banned, use Confusiflora first
-  const oogaChain = (oogaBanned && distortBanned)
-    ? ['Confusiflora','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower']
-    : ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
-  const ooga = pick('Ooga Booga', oogaChain, 'Ooga');
+  // Special: if Confusiflora is already in the team (Hypno slot), use Egg Basket Stem here instead.
+  // Special: if both Ooga AND Distort are banned, use Confusiflora first (unless Confusi already in team)
+  let ooga;
+  if (hypno === 'Confusiflora') {
+    ooga = pick('Egg Basket Stem', ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket');
+  } else {
+    const oogaChain = (oogaBanned && distortBanned)
+      ? ['Confusiflora','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower']
+      : ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
+    ooga = pick('Ooga Booga', oogaChain, 'Ooga');
+  }
 
   return {
     units: [snow, infectia, bunny, hypno, ooga],
@@ -2096,40 +2161,16 @@ function getRecommendedTeam() {
 }
 
 // ────────────────────────────────────────────
-// TAB 2: TEAM PREDICTOR
-//
-// DEFAULT: Festive Glowthorn · Egg Basket · Confusiflora · Transfig · Shockolate Flora · Hypnogaze
-//
-// Slot 1 — Glowthorn (same chain as Tab 1 snowmob):
-//   Festive Glowthorn → Snowmobile Shoveler → Starbud → Blinkbloom → Regen Flower → Prismleaf → Electric Beetroot
-//
-// Slot 2 — Egg Basket:
-//   Egg Basket → Auranji → Witch Leaf → Frost Golem → Ooga Booga → Distort Flower
-//
-// Slot 3 — Confusiflora:
-//   Confusiflora → RB Conf → Bubbloom → Fan Flower
-//
-// Slot 4 — Transfig:
-//   Transfig → Hypno → Witch Leaf → Bounce Shroom → Winterray → Firecore → Octoshroom → Distort Flower
-//
-// Slot 5 — Shocko:
-//   Shockolate Flora → Bounce Shroom → Octoshroom → Distort Flower → Firecore
-//
-// Slot 6 — Vine Hair (priority rotation):
-//   Hypnogaze → Distort Flower → RB Confusion Plant → Vine Hair → Bubbloom → Fan Flower
-//   IF Transfig is unbanned: Hypnogaze → Distort Flower → RB Confusion Plant → Frost Golem → Vine Hair → Bubbloom → Fan Flower
+// LEGACY TAB 2 LOGIC (used only by Tab 1 special-case fallback)
 // ────────────────────────────────────────────
-function getRecommendedTeam_Tab2(fromTab1) {
+function getLegacyTab2TeamForTab1() {
   const isBanned = key => {
     const low = key.toLowerCase().replace(/\s+/g,'');
-    // When called from Tab 1, use Tab 1 bans + Tab 1 always-banned (which includes Transfig etc.)
-    const activeBanSet = fromTab1 ? TAB1_BANS : TAB2_BANS;
-    const alwaysBanSet = fromTab1 ? TAB1_ALWAYS_BANNED : TAB2_ALWAYS_BANNED;
-    for (const b of activeBanSet) {
+    for (const b of TAB1_BANS) {
       const bl = b.toLowerCase().replace(/\s+/g,'');
       if (bl.includes(low) || low.includes(bl)) return true;
     }
-    for (const ab of alwaysBanSet) {
+    for (const ab of TAB1_ALWAYS_BANNED) {
       const abl = ab.toLowerCase().replace(/\s+/g,'');
       if (abl.includes(low) || low.includes(abl)) return true;
     }
@@ -2138,7 +2179,6 @@ function getRecommendedTeam_Tab2(fromTab1) {
 
   const inUse = new Set();
   const swaps = [];
-
   function pick(defaultUnit, chain, slotName) {
     const candidates = [defaultUnit, ...chain];
     for (const u of candidates) {
@@ -2148,7 +2188,6 @@ function getRecommendedTeam_Tab2(fromTab1) {
         return u;
       }
     }
-    // total exhaustion — prefer non-banned AND not-in-use; only reuse an in-use unit as last resort; never return banned
     const notBanned2 = candidates.filter(u => !isBanned(u.toLowerCase().replace(/\s+/g,'')));
     const fallback2 = notBanned2.find(u => !inUse.has(u)) || notBanned2[0];
     if (fallback2) {
@@ -2157,36 +2196,138 @@ function getRecommendedTeam_Tab2(fromTab1) {
       return fallback2;
     }
     swaps.push(`${slotName} — all options banned`);
-    return 'Festive Glowthorn'; // absolute last resort, should never happen
+    return 'Festive Glowthorn';
   }
 
-  // ── SLOT 1: Festive Glowthorn — same chain logic as Tab 1 snowmobile ──
   const slot1 = pick('Festive Glowthorn',
     ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
     'Glowthorn');
-
-  // ── SLOT 2: Egg Basket → Auranji → Witch Leaf → Frost Golem → Ooga Booga → Distort Flower ──
   const slot2 = pick('Egg Basket Stem',
     ['Auranji','Witch Leaf','Frost Golem','Ooga Booga','Distort Flower'],
     'Egg Basket');
-
-  // ── SLOT 3: Confusiflora → RB Conf → Bubbloom → Fan Flower ──
   const slot3 = pick('Confusiflora',
     ['Rainbow Confusion Plant','Bubbloom','Fan Flower'],
     'Confusiflora');
-
-  // ── SLOT 4: Transfig → Hypno → Witch Leaf → Overlord Stem → Bounce Shroom → Winterray → Firecore → Octoshroom → Distort Flower ──
   const slot4 = pick('Transfig',
     ['Hypnogaze Stem','Witch Leaf','Overlord Stem','Bounce Shroom','Winterray','Firecore','Octoshroom','Distort Flower'],
     'Transfig');
-
-  // ── SLOT 5: Shockolate Flora → Overlord Stem → Bounce Shroom → Winterray → Firecore → Octoshroom → Distort Flower ──
   const slot5 = pick('Shockolate Flora',
     ['Overlord Stem','Bounce Shroom','Winterray','Firecore','Octoshroom','Distort Flower'],
     'Shocko');
 
   return {
     units: [slot1, slot2, slot3, slot4, slot5],
+    note: swaps.length > 0 ? 'Tab 1 fallback · Swaps: ' + swaps.join(' · ') : 'Tab 1 fallback · optimal team'
+  };
+}
+
+// ────────────────────────────────────────────
+// TAB 2: TEAM PREDICTOR
+//
+// DEFAULT: Glowthorn · Auranji · Teslaflora · Rainbow Confusion · Transfiguration
+//
+// Always banned: Egg Basket Stem · Shockolate Flora · Confusiflora · Infectia · Bunny Burrow · Treasure Chest
+//
+// Rainbow Confusion chain: Rainbow Confusion → Bubbloom (only if Auranji available) → Vine Hair
+// Auranji chain: Auranji → Cryolesia → Frost Golem → Ooga Booga
+// Teslaflora banned → Glowthorn · Ooga · Winterray · Rainbow Confusion · Transfiguration
+// Transfiguration banned → Snowmobile · Cryolesia · Bounce Shroom · Rainbow Confusion · Auranji
+// ────────────────────────────────────────────
+function getRecommendedTeam_Tab2() {
+  const isBanned = key => {
+    const low = key.toLowerCase().replace(/\s+/g,'');
+    for (const b of TAB2_BANS) {
+      const bl = b.toLowerCase().replace(/\s+/g,'');
+      if (bl.includes(low) || low.includes(bl)) return true;
+    }
+    for (const ab of TAB2_ALWAYS_BANNED) {
+      const abl = ab.toLowerCase().replace(/\s+/g,'');
+      if (abl.includes(low) || low.includes(abl)) return true;
+    }
+    return false;
+  };
+
+  const inUse = new Set();
+  const swaps = [];
+  function pick(defaultUnit, chain, slotName) {
+    const candidates = [defaultUnit, ...chain];
+    for (const u of candidates) {
+      if (!isBanned(u.toLowerCase().replace(/\s+/g,'')) && !inUse.has(u)) {
+        inUse.add(u);
+        if (u !== defaultUnit) swaps.push(`${slotName} → ${u}`);
+        return u;
+      }
+    }
+    const notBanned2 = candidates.filter(u => !isBanned(u.toLowerCase().replace(/\s+/g,'')));
+    const fallback2 = notBanned2.find(u => !inUse.has(u)) || notBanned2[0];
+    if (fallback2) {
+      inUse.add(fallback2);
+      swaps.push(`${slotName} → ${fallback2} (exhausted)`);
+      return fallback2;
+    }
+    swaps.push(`${slotName} — all options banned`);
+    return 'Festive Glowthorn';
+  }
+
+  const teslaBanned = isBanned('teslaflora') || isBanned('tesla');
+  const transfigBanned = isBanned('transfig') || isBanned('transfiguration');
+
+  if (teslaBanned) {
+    inUse.clear(); swaps.splice(0);
+    const glowt = pick('Festive Glowthorn',
+      ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
+      'Glowthorn');
+    const ooga = pick('Ooga Booga', ['Frost Golem','Cryolesia','Winterray'], 'Ooga');
+    const winter = pick('Winterray', ['Firecore','Bounce Shroom'], 'Winterray');
+    const rainbow = pick('Rainbow Confusion Plant', ['Vine Hair','Bubbloom','Fan Flower'], 'Rainbow Confusion');
+    const transfig = pick('Transfiguration Flower', ['Vine Hair','Subzero Stem','Hypnogaze Stem','Bounce Shroom'], 'Transfiguration');
+    return {
+      units: [glowt, ooga, winter, rainbow, transfig],
+      note: 'Teslaflora banned — alternate loadout' + (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
+    };
+  }
+
+  if (transfigBanned) {
+    inUse.clear(); swaps.splice(0);
+    const snow = pick('Snowmobile Shoveler',
+      ['Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
+      'Snowmobile');
+    const cryo = pick('Cryolesia', ['Frost Golem','Ooga Booga'], 'Cryolesia');
+    const bounce = pick('Bounce Shroom', ['Firecore','Octoshroom','Winterray'], 'Bounce Shroom');
+    const rainbow = pick('Rainbow Confusion Plant', ['Vine Hair','Bubbloom','Fan Flower'], 'Rainbow Confusion');
+    const auranji = pick('Auranji', ['Frost Golem','Ooga Booga'], 'Auranji');
+    return {
+      units: [snow, cryo, bounce, rainbow, auranji],
+      note: 'Transfiguration banned — alternate loadout' + (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
+    };
+  }
+
+  const glowt = pick('Festive Glowthorn',
+    ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
+    'Glowthorn');
+  const auranji = pick('Auranji', ['Cryolesia','Frost Golem','Ooga Booga'], 'Auranji');
+  const tesla = pick('Teslaflora', [], 'Teslaflora');
+
+  const auranjiAvailable = !isBanned('auranji');
+  const rainbowBanned = isBanned('rainbow confusion') || isBanned('rainbowconf');
+  let confusion;
+  if (!rainbowBanned) {
+    confusion = 'Rainbow Confusion Plant';
+    inUse.add(confusion);
+  } else if (auranjiAvailable && !isBanned('bubbloom')) {
+    confusion = 'Bubbloom';
+    inUse.add(confusion);
+    swaps.push('Rainbow Confusion → Bubbloom');
+  } else {
+    confusion = pick('Vine Hair', ['Fan Flower'], 'Rainbow Confusion');
+  }
+
+  const transfig = pick('Transfiguration Flower',
+    ['Vine Hair','Subzero Stem','Hypnogaze Stem','Bounce Shroom','Winterray','Firecore','Octoshroom'],
+    'Transfiguration');
+
+  return {
+    units: [glowt, auranji, tesla, confusion, transfig],
     note: swaps.length > 0 ? 'Tab 2 · Swaps: ' + swaps.join(' · ') : 'Tab 2 · No key bans — running optimal team'
   };
 }
@@ -2202,9 +2343,13 @@ function showView(v) {
   document.getElementById('view-predictor').style.display = v==='predictor' ? 'block' : 'none';
   document.getElementById('view-data').style.display      = v==='data'      ? 'block' : 'none';
   document.getElementById('view-players').style.display   = v==='players'   ? 'block' : 'none';
+  document.getElementById('view-credits').style.display   = v==='credits'   ? 'block' : 'none';
   document.getElementById('nav-predictor').className = 'btn'+(v==='predictor'?' active':'');
   document.getElementById('nav-data').className      = 'btn'+(v==='data'    ?' active':'');
   document.getElementById('nav-players').className   = 'btn'+(v==='players' ?' active':'');
+  document.getElementById('nav-credits').className   = 'btn'+(v==='credits' ?' active':'');
+  const tabRow = document.getElementById('predictor-tab-row');
+  if (tabRow) tabRow.style.display = v === 'predictor' ? 'flex' : 'none';
   if (v==='data')    renderDataView();
   if (v==='players') renderPlayersView();
 }

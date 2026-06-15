@@ -2028,7 +2028,8 @@ function getRecommendedTeam() {
   // Loadout: Glowthorn · Shocko(→Tesla) · Confusi · Egg Bask · Vine Hair
   // ════════════════════════════════════════
   if (infectiaBanned && bunnyBanned) {
-    const keyUnit = pick('Shockolate Flora', ['Teslaflora'], 'Shocko/Tesla');
+    // If Shocko+Tesla also both banned → vine chain fills key slot
+    const keyUnit = pick('Shockolate Flora', ['Teslaflora','Vine Hair','Hypnogaze Stem','Subzero Stem','Bubbloom','Fan Flower'], 'Shocko/Tesla');
     // Confusi chain
     const confuChainBI = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
     const confuBI = pick('Confusiflora', confuChainBI, 'Confusiflora');

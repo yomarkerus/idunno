@@ -1676,7 +1676,7 @@ const KEY_UNITS = [
   // Confu/Rainbow/VineHair/Bubbloom/Fan chain
   'Confusiflora','Rainbow Confusion Plant','Vine Hair','Bubbloom','Fan Flower',
   // Bounce/Octo chain
-  'Overlord Stem','Bounce Shroom','Firecore','Octoshroom','Winterray',
+  'Overlord Stem','Bounce Shroom','Firecore','Octoshroom','Winterray','Squid Plant',
   // Former Tab 2 units now in Tab 1 pool
   'Transfiguration Flower','Auranji','Witch Leaf','ERose',
 ];
@@ -2127,29 +2127,33 @@ function getRecommendedTeam() {
     bunny = pick('Shockolate Flora', ['Teslaflora'], 'Bunny B');
   }
 
-  // Vine Hair slot (was Hypno): Vine Hair → Subzero Stem → Hypnogaze Stem → Shocko → Tesla
+  // Hypno slot: use Vine Hair only if 3+ of big four are banned; otherwise Hypno is preferred.
   // If Shocko/Tesla already taken by Infectia/Bunny above, pick() skips them via inUse.
-  // Extended with non-flex fallbacks so a unit always resolves.
+  const squidPlantBanned = isBanned('squidplant') || isBanned('squid plant');
   let hypno;
-  if (!vineHairBanned) {
-    hypno = 'Vine Hair'; inUse.add(hypno);
-  } else if (!subzeroBanned) {
-    hypno = 'Subzero Stem'; inUse.add(hypno);
-  } else if (!hypnoBanned) {
-    hypno = 'Hypnogaze Stem'; inUse.add(hypno);
+  if (bigFourBanned >= 3) {
+    // 3+ big four banned → prefer Vine Hair
+    if (!vineHairBanned) {
+      hypno = 'Vine Hair'; inUse.add(hypno);
+    } else if (!hypnoBanned) {
+      hypno = 'Hypnogaze Stem'; inUse.add(hypno);
+    } else {
+      hypno = pick('Shockolate Flora', ['Teslaflora','Firecore','Bounce Shroom','Confusiflora','Octoshroom','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Vine Hair');
+    }
   } else {
-    hypno = pick('Shockolate Flora', ['Teslaflora','Firecore','Bounce Shroom','Confusiflora','Octoshroom','Frost Golem','Distort Flower','Starbud','Blinkbloom','Regen Flower'], 'Vine Hair');
+    // Default → Hypno → Shocko → Tesla → (if all three banned) Vine Hair chain
+    hypno = pick('Hypnogaze Stem', ['Shockolate Flora','Teslaflora','Vine Hair','Subzero Stem','Bubbloom','Fan Flower'], 'Hypno');
   }
 
   // Ooga slot (5th): Ooga → Distort → Frost Golem → Subzero → Winterray → Bounce → Firecore → Octo → Starbud → Blink → Regen
   // Special: if Confusiflora is already in the team (Hypno slot), use Egg Basket Stem here instead.
-  // Special: if both Ooga AND Distort are banned, use Confusiflora first (unless Confusi already in team)
+  // Special: if both Ooga AND Distort are banned, use Squid Plant → Confusiflora chain
   let ooga;
   if (hypno === 'Confusiflora') {
     ooga = pick('Egg Basket Stem', ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket');
   } else {
     const oogaChain = (oogaBanned && distortBanned)
-      ? ['Confusiflora','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower']
+      ? ['Squid Plant','Confusiflora','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower']
       : ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
     ooga = pick('Ooga Booga', oogaChain, 'Ooga');
   }

@@ -1950,12 +1950,6 @@ function getRecommendedTeam() {
   const snowChain = ['Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
   const snow = pick('Snowmobile Shoveler', snowChain, 'Snowmobile');
 
-  // ── SPECIAL CASE: Tesla + Bunny Burrow + Infectia all banned (but Shocko still available) → use Tab 2 logic ──
-  // If Shocko is also banned, fall through to the bigFourBanned >= 4 block (Vine Hair loadout) instead.
-  if (teslaBanned && bunnyBanned && infectiaBanned && !shockoBanned) {
-    return getLegacyTab2TeamForTab1();
-  }
-
   // ── BIG FOUR BAN COUNT ──
   const bigFourBanned = [infectiaBanned, teslaBanned, shockoBanned, bunnyBanned].filter(Boolean).length;
 
@@ -2001,9 +1995,9 @@ function getRecommendedTeam() {
   // The surviving Big Four unit steps in as Shocko slot (Shocko → Tesla chain).
   // Only use 4-ban loadout if BOTH Shocko AND Tesla are banned (no key unit left).
   // ════════════════════════════════════════
-  if (bigFourBanned === 3) {
-    // Find the ONE surviving Big Four unit and put it in the key slot.
-    // pick() skips banned units automatically, so it lands on whichever isn't banned.
+  // bigFourBanned===3: only use the 3-ban loadout if infectia OR bunny is the survivor
+  // (i.e. NOT both infectia and bunny are banned — that case belongs to the infectia+bunny block below)
+  if (bigFourBanned === 3 && !(infectiaBanned && bunnyBanned)) {
     inUse.clear(); swaps.splice(0);
     const glowtChain3 = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
     const glowt3 = pick('Festive Glowthorn', glowtChain3, 'Glowthorn');
@@ -2028,8 +2022,16 @@ function getRecommendedTeam() {
   // Loadout: Glowthorn · Shocko(→Tesla) · Confusi · Egg Bask · Vine Hair
   // ════════════════════════════════════════
   if (infectiaBanned && bunnyBanned) {
-    // If Shocko+Tesla also both banned → vine chain fills key slot
-    const keyUnit = pick('Shockolate Flora', ['Teslaflora','Vine Hair','Hypnogaze Stem','Subzero Stem','Bubbloom','Fan Flower'], 'Shocko/Tesla');
+    // Key slot: Shocko if available, Tesla only if Shocko banned, vine chain if both banned
+    // Do NOT use pick() here — Tesla being banned must not affect this slot if Shocko is free
+    let keyUnit;
+    if (!shockoBanned) {
+      keyUnit = 'Shockolate Flora'; inUse.add(keyUnit);
+    } else if (!teslaBanned) {
+      keyUnit = 'Teslaflora'; inUse.add(keyUnit);
+    } else {
+      keyUnit = pick('Vine Hair', ['Hypnogaze Stem','Subzero Stem','Bubbloom','Fan Flower'], 'Shocko/Tesla');
+    }
     // Confusi chain
     const confuChainBI = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
     const confuBI = pick('Confusiflora', confuChainBI, 'Confusiflora');

@@ -1875,7 +1875,7 @@ function refreshUI() {
 //   with their own chains:
 //     Glowthorn chain: Snowmob → Starbud → Blinkbloom → Regen Flower
 //     Vine Hair slot:  Vine Hair → Bubbloom → Fan Flower → Hypnogaze → Distort Flower
-//     Egg Bask chain:  Subzero → Frost Golem → Ooga → Distort → Winterray
+//     Egg Bask chain:  Frost Golem → Iced Prismflower → Subzero → Ooga → Distort → Winterray
 //     Confusi chain:   RB Conf → Bubbloom → ERose
 //     Bounce chain:    Octoshroom → Distort → Firecore
 //
@@ -1970,8 +1970,8 @@ function getRecommendedTeam() {
     const vineChain = ['Subzero Stem','Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
     const vine = pick('Vine Hair', vineChain, 'Vine Hair');
 
-    // Egg Bask chain: Egg Bask → Subzero → Frost Golem → Ooga → Distort → Winterray
-    const eggChainFour = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
+    // Egg Bask chain: Egg Bask → Frost Golem → Iced Prismflower → Subzero → Ooga → Distort → Winterray
+    const eggChainFour = ['Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'];
     const egg = pick('Egg Basket Stem', eggChainFour, 'Egg Basket');
 
     // Confusi chain: Confusi → RB Conf → Bubbloom → ERose
@@ -2002,7 +2002,7 @@ function getRecommendedTeam() {
     const glowtChain3 = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
     const glowt3 = pick('Festive Glowthorn', glowtChain3, 'Glowthorn');
     const keySlot = pick('Infectia', ['Shockolate Flora','Teslaflora','Bunny Burrow'], 'Key Unit');
-    const eggChain3 = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
+    const eggChain3 = ['Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'];
     const egg3 = pick('Egg Basket Stem', eggChain3, 'Egg Basket');
     const confuChain3 = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
     const confu3 = pick('Confusiflora', confuChain3, 'Confusiflora');
@@ -2043,11 +2043,11 @@ function getRecommendedTeam() {
     let starterBI, eggBI;
     if (useSubzeroInVine) {
       starterBI = pick('Snowmobile Shoveler', ['Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'], 'Snowmobile');
-      const eggChainBI = ['Frost Golem','Ooga Booga','Distort Flower','Winterray'];
+      const eggChainBI = ['Frost Golem','Iced Prismflower','Ooga Booga','Distort Flower','Winterray'];
       eggBI = pick('Egg Basket Stem', eggChainBI, 'Egg Basket');
     } else {
       starterBI = pick('Festive Glowthorn', ['Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'], 'Glowthorn');
-      const eggChainBI = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
+      const eggChainBI = ['Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'];
       eggBI = pick('Egg Basket Stem', eggChainBI, 'Egg Basket');
     }
     return {
@@ -2075,7 +2075,7 @@ function getRecommendedTeam() {
     const oogaChainSB = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
     // If Confusiflora is in the team, use Egg Basket Stem as the slow unit instead of Ooga
     const slowSB = (hypnoSB === 'Confusiflora')
-      ? pick('Egg Basket Stem', ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket')
+      ? pick('Egg Basket Stem', ['Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket')
       : pick('Ooga Booga', oogaChainSB, 'Ooga');
     return {
       units: [glowtSB, shockoSB, hypnoSB, slowSB, 'Infectia'],
@@ -2098,7 +2098,7 @@ function getRecommendedTeam() {
     const oogaChainIB = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
     // If Confusiflora is in the team, use Egg Basket Stem as the slow unit instead of Ooga
     const slowIB = (hypnoIB === 'Confusiflora')
-      ? pick('Egg Basket Stem', ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket')
+      ? pick('Egg Basket Stem', ['Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket')
       : pick('Ooga Booga', oogaChainIB, 'Ooga');
     return {
       units: [glowtIB, shockoIB, hypnoIB, slowIB, 'Bunny Burrow'],
@@ -2151,9 +2151,16 @@ function getRecommendedTeam() {
   // Ooga slot (5th): Ooga → Distort → Frost Golem → Subzero → Winterray → Bounce → Firecore → Octo → Starbud → Blink → Regen
   // Special: if Confusiflora is already in the team (Hypno slot), use Egg Basket Stem here instead.
   // Special: if both Ooga AND Distort are banned, use Squid Plant → Confusiflora chain
+  // Special: if Bunny Burrow or Infectia is banned, prefer Distort Flower over Ooga Booga
   let ooga;
   if (hypno === 'Confusiflora') {
-    ooga = pick('Egg Basket Stem', ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket');
+    ooga = pick('Egg Basket Stem', ['Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'], 'Egg Basket');
+  } else if ((bunnyBanned || infectiaBanned) && !distortBanned) {
+    // Bunny or Infectia banned → Distort Flower takes priority over Ooga
+    const oogaChainPrio = (oogaBanned && distortBanned)
+      ? ['Squid Plant','Confusiflora','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower']
+      : ['Ooga Booga','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
+    ooga = pick('Distort Flower', oogaChainPrio, 'Ooga');
   } else {
     const oogaChain = (oogaBanned && distortBanned)
       ? ['Squid Plant','Confusiflora','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower']

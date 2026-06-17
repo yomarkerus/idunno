@@ -2248,8 +2248,10 @@ function getLegacyTab2TeamForTab1() {
 // Confusiflora slot, if banned → Tab 1's normal way down (Rainbow Confusion → Distort Flower → Bounce Shroom → Firecore → Octoshroom)
 // Teslaflora banned  (Distort free) → Shockolate Flora steps into the Tesla slot
 // Distort banned     (Tesla free)   → Shockolate Flora steps into the Distort slot
-// Tesla AND Distort both banned, OR Snowman banned → defer entirely to Tab 1's loadout logic
-//   (evaluated against Tab 2's current bans + Tab 2's always-banned list)
+// Snowman banned, OR 2+ of {Tesla, Distort, Shocko} banned (no backup left for the flex slots)
+//   → defer entirely to Tab 1's loadout logic (evaluated against Tab 2's current bans
+//      + Tab 2's always-banned list — effectively the same territory as Tab 1's Big Four
+//      ban framework, since Infectia/Bunny B are already always-banned here).
 // ────────────────────────────────────────────
 function getRecommendedTeam_Tab2() {
   const isBanned = key => {
@@ -2268,20 +2270,25 @@ function getRecommendedTeam_Tab2() {
   const teslaBanned   = isBanned('teslaflora') || isBanned('tesla');
   const distortBanned = isBanned('distort');
   const snowmanBanned = isBanned('snowman');
+  const shockoBanned  = isBanned('shockolate') || isBanned('shockoflora');
+
+  // No backup left once 2+ of these three are banned — e.g. Tesla+Shocko banned
+  // means the Tesla slot has nowhere to go even though Distort is still free.
+  const flexBannedCount = [teslaBanned, distortBanned, shockoBanned].filter(Boolean).length;
 
   // ════════════════════════════════════════
-  // FALLBACK: Snowman banned, OR Tesla + Distort both banned
+  // FALLBACK: Snowman banned, OR no backup left among Tesla/Distort/Shocko
   // → run Tab 1's loadout logic instead, but against a ban set that also
   //   includes Tab 2's always-banned units (Infectia/Bunny B/Egg Bask),
   //   since Tab 1's function only checks whatever Set is in `BANS`.
   // ════════════════════════════════════════
-  if (snowmanBanned || (teslaBanned && distortBanned)) {
+  if (snowmanBanned || flexBannedCount >= 2) {
     const combinedBans = new Set([...TAB2_BANS, ...TAB2_ALWAYS_BANNED]);
     const savedBANS = BANS;
     BANS = combinedBans;
     const fallback = getRecommendedTeam();
     BANS = savedBANS;
-    const reason = snowmanBanned ? 'Snowman banned' : 'Tesla + Distort banned';
+    const reason = snowmanBanned ? 'Snowman banned' : 'No backup left for Tesla/Distort/Shocko';
     return {
       units: fallback.units,
       note: 'Tab 2 · ' + reason + ' → Tab 1 loadout · ' + fallback.note

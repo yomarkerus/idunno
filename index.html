@@ -800,12 +800,12 @@ if (isAlreadyUnlocked()) {
   <div id="always-banned-tab2" style="background:var(--surface-1);border:1px solid var(--pink-soft);border-radius:8px;padding:14px 20px;margin-bottom:20px;display:none;flex-wrap:wrap;align-items:center;gap:10px">
     <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);flex-shrink:0">⛔ Always Banned · Tab 2</span>
     <div style="display:flex;flex-wrap:wrap;gap:6px">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Egg Basket Stem</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Shockolate Flora</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Confusiflora</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Infectia</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Auranji</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Cryolesia</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Ice Dragon</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Bunny Burrow</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Treasure Chest</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Infectia</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Egg Basket Stem</span>
     </div>
     <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto;opacity:.7">these 6 are always off the table</span>
   </div>
@@ -1687,16 +1687,18 @@ const TAB1_ALWAYS_BANNED = new Set([
 ]);
 // Units always banned in Tab 2 (never shown as banning chips, always excluded from its results)
 const TAB2_ALWAYS_BANNED = new Set([
-  'EggBasketstem','Egg Basket Stem','Egg Basketstem','Shockolateflora','Shockolate Flora','Confusiflora','Infectia',
-  'BunnyBurrow','Bunny Burrow','TreasureTrap','Treasure Trap','Treasure','Treasure Chest','TreasureChest',
+  'Auranji','Cryolesia','Ice Dragon','Bunny Burrow','Infectia','Egg Basket Stem',
 ]);
 
 // Tab 2's selectable unit pool (units that can appear in Tab 2 chips)
 const KEY_UNITS_TAB2 = [
-  'Festive Glowthorn','Auranji','Teslaflora','Rainbow Confusion Plant','Transfiguration Flower',
-  'Bubbloom','Vine Hair','Cryolesia','Frost Golem','Ooga Booga','Winterray',
-  'Snowmobile Shoveler','Bounce Shroom',
-  'Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot','Fan Flower',
+  // Main loadout
+  'Festive Glowthorn','Distort Flower','Snowman','Teslaflora','Confusiflora',
+  // Flex / fallback chain units
+  'Shockolate Flora','Rainbow Confusion Plant','Bounce Shroom','Firecore','Octoshroom',
+  'Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot',
+  // Always-banned (kept here for reference; filtered out of chips automatically)
+  'Auranji','Cryolesia','Ice Dragon','Bunny Burrow','Infectia','Egg Basket Stem',
 ];
 
 function rebuildUnits() {
@@ -2236,16 +2238,18 @@ function getLegacyTab2TeamForTab1() {
 }
 
 // ────────────────────────────────────────────
-// TAB 2: TEAM PREDICTOR
+// TAB 2: TEAM PREDICTOR (v2)
 //
-// DEFAULT: Glowthorn · Auranji · Teslaflora · Rainbow Confusion · Transfiguration
+// Always banned: Auranji · Cryolesia · Ice Dragon · Bunny Burrow · Infectia · Egg Basket Stem
 //
-// Always banned: Egg Basket Stem · Shockolate Flora · Confusiflora · Infectia · Bunny Burrow · Treasure Chest
+// MAIN LOADOUT: Festive Glowthorn · Distort Flower · Snowman · Teslaflora · Confusiflora
 //
-// Rainbow Confusion chain: Rainbow Confusion → Bubbloom (only if Auranji available) → Vine Hair
-// Auranji chain: Auranji → Cryolesia → Frost Golem → Ooga Booga
-// Teslaflora banned → Glowthorn · Ooga · Winterray · Rainbow Confusion · Transfiguration
-// Transfiguration banned → Snowmobile · Cryolesia · Bounce Shroom · Rainbow Confusion · Auranji
+// Glowthorn slot   → Tab 1's snow chain (Snowmobile → Starbud → Blinkbloom → Regen Flower → Prismleaf → Electric Beetroot)
+// Confusiflora slot, if banned → Tab 1's normal way down (Rainbow Confusion → Distort Flower → Bounce Shroom → Firecore → Octoshroom)
+// Teslaflora banned  (Distort free) → Shockolate Flora steps into the Tesla slot
+// Distort banned     (Tesla free)   → Shockolate Flora steps into the Distort slot
+// Tesla AND Distort both banned, OR Snowman banned → defer entirely to Tab 1's loadout logic
+//   (evaluated against Tab 2's current bans + Tab 2's always-banned list)
 // ────────────────────────────────────────────
 function getRecommendedTeam_Tab2() {
   const isBanned = key => {
@@ -2260,6 +2264,29 @@ function getRecommendedTeam_Tab2() {
     }
     return false;
   };
+
+  const teslaBanned   = isBanned('teslaflora') || isBanned('tesla');
+  const distortBanned = isBanned('distort');
+  const snowmanBanned = isBanned('snowman');
+
+  // ════════════════════════════════════════
+  // FALLBACK: Snowman banned, OR Tesla + Distort both banned
+  // → run Tab 1's loadout logic instead, but against a ban set that also
+  //   includes Tab 2's always-banned units (Infectia/Bunny B/Egg Bask),
+  //   since Tab 1's function only checks whatever Set is in `BANS`.
+  // ════════════════════════════════════════
+  if (snowmanBanned || (teslaBanned && distortBanned)) {
+    const combinedBans = new Set([...TAB2_BANS, ...TAB2_ALWAYS_BANNED]);
+    const savedBANS = BANS;
+    BANS = combinedBans;
+    const fallback = getRecommendedTeam();
+    BANS = savedBANS;
+    const reason = snowmanBanned ? 'Snowman banned' : 'Tesla + Distort banned';
+    return {
+      units: fallback.units,
+      note: 'Tab 2 · ' + reason + ' → Tab 1 loadout · ' + fallback.note
+    };
+  }
 
   const inUse = new Set();
   const swaps = [];
@@ -2283,65 +2310,35 @@ function getRecommendedTeam_Tab2() {
     return 'Festive Glowthorn';
   }
 
-  const teslaBanned = isBanned('teslaflora') || isBanned('tesla');
-  const transfigBanned = isBanned('transfig') || isBanned('transfiguration');
-
-  if (teslaBanned) {
-    inUse.clear(); swaps.splice(0);
-    const glowt = pick('Festive Glowthorn',
-      ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
-      'Glowthorn');
-    const ooga = pick('Ooga Booga', ['Frost Golem','Cryolesia','Winterray'], 'Ooga');
-    const winter = pick('Winterray', ['Firecore','Bounce Shroom'], 'Winterray');
-    const rainbow = pick('Rainbow Confusion Plant', ['Vine Hair','Bubbloom','Fan Flower'], 'Rainbow Confusion');
-    const transfig = pick('Transfiguration Flower', ['Vine Hair','Subzero Stem','Hypnogaze Stem','Bounce Shroom'], 'Transfiguration');
-    return {
-      units: [glowt, ooga, winter, rainbow, transfig],
-      note: 'Teslaflora banned — alternate loadout' + (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
-    };
-  }
-
-  if (transfigBanned) {
-    inUse.clear(); swaps.splice(0);
-    const snow = pick('Snowmobile Shoveler',
-      ['Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
-      'Snowmobile');
-    const cryo = pick('Cryolesia', ['Frost Golem','Ooga Booga'], 'Cryolesia');
-    const bounce = pick('Bounce Shroom', ['Firecore','Octoshroom','Winterray'], 'Bounce Shroom');
-    const rainbow = pick('Rainbow Confusion Plant', ['Vine Hair','Bubbloom','Fan Flower'], 'Rainbow Confusion');
-    const auranji = pick('Auranji', ['Frost Golem','Ooga Booga'], 'Auranji');
-    return {
-      units: [snow, cryo, bounce, rainbow, auranji],
-      note: 'Transfiguration banned — alternate loadout' + (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
-    };
-  }
-
+  // ── GLOWTHORN SLOT — Tab 1's snow chain ──
   const glowt = pick('Festive Glowthorn',
     ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
     'Glowthorn');
-  const auranji = pick('Auranji', ['Cryolesia','Frost Golem','Ooga Booga'], 'Auranji');
-  const tesla = pick('Teslaflora', [], 'Teslaflora');
 
-  const auranjiAvailable = !isBanned('auranji');
-  const rainbowBanned = isBanned('rainbow confusion') || isBanned('rainbowconf');
-  let confusion;
-  if (!rainbowBanned) {
-    confusion = 'Rainbow Confusion Plant';
-    inUse.add(confusion);
-  } else if (auranjiAvailable && !isBanned('bubbloom')) {
-    confusion = 'Bubbloom';
-    inUse.add(confusion);
-    swaps.push('Rainbow Confusion → Bubbloom');
+  // ── SNOWMAN SLOT — handled above if banned, so it's always free here ──
+  const snowman = 'Snowman';
+  inUse.add(snowman);
+
+  // ── TESLA / DISTORT SLOTS — only one can be banned here (both-banned is caught above) ──
+  let tesla, distort;
+  if (teslaBanned) {
+    tesla = pick('Shockolate Flora', [], 'Tesla → Shocko');
+    distort = pick('Distort Flower', [], 'Distort');
+  } else if (distortBanned) {
+    distort = pick('Shockolate Flora', [], 'Distort → Shocko');
+    tesla = pick('Teslaflora', [], 'Tesla');
   } else {
-    confusion = pick('Vine Hair', ['Fan Flower'], 'Rainbow Confusion');
+    tesla = pick('Teslaflora', [], 'Tesla');
+    distort = pick('Distort Flower', [], 'Distort');
   }
 
-  const transfig = pick('Transfiguration Flower',
-    ['Vine Hair','Subzero Stem','Hypnogaze Stem','Bounce Shroom','Winterray','Firecore','Octoshroom'],
-    'Transfiguration');
+  // ── CONFUSIFLORA SLOT — Tab 1's normal way down if banned ──
+  const confu = pick('Confusiflora',
+    ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'],
+    'Confusiflora');
 
   return {
-    units: [glowt, auranji, tesla, confusion, transfig],
+    units: [glowt, distort, snowman, tesla, confu],
     note: swaps.length > 0 ? 'Tab 2 · Swaps: ' + swaps.join(' · ') : 'Tab 2 · No key bans — running optimal team'
   };
 }

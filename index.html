@@ -555,10 +555,14 @@ footer .dot{color:var(--purple);margin:0 8px}
 
 <script>
 // ── LOCK SCREEN LOGIC ──
-// Password is fetched from a secret GitHub Gist updated daily by the bot.
+// IMPORTANT: this file must contain a SHA-256 HASH of today's password,
+// never the plaintext password itself. The bot should hash the password
+// before writing it here (see instructions provided alongside this file).
 const PASSWORD_URL = 'https://raw.githubusercontent.com/yomarkerus/idunno/main/password.txt';
-const LS_AUTH_KEY  = 'gtd_auth_token';
-const LS_AUTH_DATE = 'gtd_auth_date';
+// Renamed (v2) so every previously-unlocked browser is forced to re-enter
+// the key after this update ships — this is the "reset everyone" step.
+const LS_AUTH_KEY  = 'gtd_auth_token_v2';
+const LS_AUTH_DATE = 'gtd_auth_date_v2';
 
 function getTodayString() {
   const d = new Date();
@@ -575,6 +579,14 @@ function showApp() {
   document.getElementById('lock-screen').style.display = 'none';
 }
 
+// Hash the typed guess locally so the real password is never sent anywhere
+// and never appears in this page, in localStorage, or in any network response.
+async function sha256Hex(str) {
+  const buf = new TextEncoder().encode(str);
+  const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 async function tryUnlock() {
   const input = document.getElementById('lock-input');
   const error = document.getElementById('lock-error');
@@ -584,12 +596,14 @@ async function tryUnlock() {
   error.textContent = 'Checking…';
 
   try {
-    // Fetch today's password from the gist (cache-busted)
+    // Fetch today's password HASH (cache-busted). This file must contain
+    // a SHA-256 hash, not the plaintext password.
     const resp = await fetch(PASSWORD_URL + '?t=' + Date.now(), { cache: 'no-store' });
     if (!resp.ok) throw new Error('fetch failed');
-    const text = (await resp.text()).trim();
+    const expectedHash = (await resp.text()).trim().toLowerCase();
+    const typedHash = await sha256Hex(typed);
 
-    if (typed === text) {
+    if (typedHash === expectedHash) {
       localStorage.setItem(LS_AUTH_KEY,  'unlocked');
       localStorage.setItem(LS_AUTH_DATE, getTodayString());
       showApp();

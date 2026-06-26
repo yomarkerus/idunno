@@ -789,10 +789,7 @@ if (isAlreadyUnlocked()) {
       <button class="btn" id="nav-players" onclick="showView('players')">📈 Stats</button>
       <button class="btn" id="nav-credits" onclick="showView('credits')">✦ Credits</button>
     </div>
-    <div id="predictor-tab-row" style="display:flex;gap:6px">
-      <button class="topbar-tab active" id="tab-1-btn" onclick="switchTab('tab1')">Tab 1</button>
-      <button class="topbar-tab" id="tab-2-btn" onclick="switchTab('tab2')">Tab 2</button>
-    </div>
+
   </div>
 </div>
 
@@ -818,21 +815,7 @@ if (isAlreadyUnlocked()) {
     <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto;opacity:.7">these 6 are always off the table</span>
   </div>
 
-  <!-- PERMANENT BANS BANNER — TAB 2 -->
-  <div id="always-banned-tab2" style="background:var(--surface-1);border:1px solid var(--pink-soft);border-radius:8px;padding:14px 20px;margin-bottom:20px;display:none;flex-wrap:wrap;align-items:center;gap:10px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);flex-shrink:0">⛔ Always Banned · Tab 2</span>
-    <div style="display:flex;flex-wrap:wrap;gap:6px">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Auranji</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Cryolesia</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Ice Dragon</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Bunny Burrow</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Infectia</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Egg Basket Stem</span>
-    </div>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto;opacity:.7">these 6 are always off the table</span>
-  </div>
 
-  <!-- STEP 1 -->
   <div class="step-card">
     <div class="step-label">Step 01</div>
     <div class="step-title">Match Setup</div>
@@ -883,41 +866,6 @@ if (isAlreadyUnlocked()) {
     </div>
 
   </div><!-- /main-grid Tab 1 -->
-
-  <!-- TAB 2 MAIN GRID -->
-  <div class="main-grid" id="main-grid-tab2" style="display:none">
-
-    <!-- STEP 2: BANS (TAB 2) -->
-    <div class="step-card">
-      <div class="step-label">Step 02</div>
-      <div class="step-title">Banned Units</div>
-      <div class="step-sub">Click a unit to ban it — banned loadouts are hidden from results.</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-        <input type="text" id="ban-search-tab2" placeholder="Search units…" autocomplete="off" style="flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 10px;outline:none">
-        <button class="btn" id="clear-bans-tab2">Clear Bans</button>
-      </div>
-      <div class="chips" id="chips-tab2">
-        <div class="state-screen" style="padding:16px;width:100%"><div class="state-sub">Loading…</div></div>
-      </div>
-      <div class="ban-summary" id="ban-summary-tab2">No bans · all loadouts eligible</div>
-      <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.08em;line-height:1.5">Use the chips above to mark additional bans for this match.</div>
-    </div>
-
-    <!-- STEP 3: RESULTS (TAB 2) -->
-    <div>
-      <div class="results-header">
-        <div>
-          <div class="step-label">Step 03</div>
-          <div class="step-title">Recommendation</div>
-        </div>
-        <div class="results-meta" id="results-meta-tab2">ban-based recommendation</div>
-      </div>
-      <div id="results-tab2">
-        <div class="state-screen"><div class="state-icon">⟳</div><div class="state-sub">Loading data…</div></div>
-      </div>
-    </div>
-
-  </div><!-- /main-grid Tab 2 -->
 
   <!-- STEP 4: LOG THIS MATCH -->
   <div class="step-card" style="margin-top:24px">
@@ -1394,13 +1342,11 @@ const LS_MANUAL = 'gtd_manual_matches';
 const LS_USERNAME = 'gtd_username';
 const LS_TAB      = 'gtd_active_tab';
 const LS_BANS1    = 'gtd_bans_tab1';
-const LS_BANS2    = 'gtd_bans_tab2';
 
 let SHEET_OBS   = [];   // parsed observations from Google Sheets
 let MANUAL_OBS  = [];   // manually logged observations
 let ALL_UNITS   = [];
 const TAB1_BANS = new Set();
-const TAB2_BANS = new Set();
 let BANS = TAB1_BANS; // Point to active tab's bans
 let ACTIVE_PLAYER = null;
 let QUICK_RESULT  = null;
@@ -1656,31 +1602,10 @@ function setPlayer(p) {
   refreshUI();
 }
 
-// ── TAB SWITCHING ──
+// ── TAB SWITCHING (single-tab build) ──
 function switchTab(tab) {
-  ACTIVE_TAB = tab;
-  localStorage.setItem(LS_TAB, tab);
-  
-  // Switch which ban set is active
-  if (tab === 'tab2') {
-    BANS = TAB2_BANS;
-  } else {
-    BANS = TAB1_BANS;
-  }
-  
-  // Update topbar button states
-  document.getElementById('tab-1-btn').classList.toggle('active', tab === 'tab1');
-  document.getElementById('tab-2-btn').classList.toggle('active', tab === 'tab2');
-  
-  // Toggle grid visibility
-  document.getElementById('main-grid-tab1').style.display = tab === 'tab1' ? '' : 'none';
-  document.getElementById('main-grid-tab2').style.display = tab === 'tab2' ? '' : 'none';
-
-  // Toggle always-banned banners
-  document.getElementById('always-banned-tab1').style.display = tab === 'tab1' ? 'flex' : 'none';
-  document.getElementById('always-banned-tab2').style.display = tab === 'tab2' ? 'flex' : 'none';
-  
-  // Rebuild UI for new tab
+  ACTIVE_TAB = 'tab1';
+  BANS = TAB1_BANS;
   rebuildUnits();
   refreshUI();
 }
@@ -1690,7 +1615,7 @@ function switchTab(tab) {
 // All units that matter for the decision tree (Tab 1 — merged legacy Tab 1 + Tab 2 pools)
 const KEY_UNITS = [
   // Snow chain
-  'Snowmobile Shoveler','Festive Glowthorn','Starbud','Blinkbloom',
+  'Tridenthra','Snowmobile Shoveler','Festive Glowthorn','Starbud','Blinkbloom',
   'Regen Flower','Prismleaf','Electric Beetroot',
   // Core flex
   'Hypnogaze Stem','Bunny Burrow','Infectia','Shockolate Flora','Teslaflora',
@@ -1710,61 +1635,28 @@ const KEY_UNITS = [
 const TAB1_ALWAYS_BANNED = new Set([
   'Transfig','Transfiguration Flower','Witchleaf','Witch Leaf','Auranji','Cryolesia','IceDragon','Ice Dragon','TreasureTrap','Treasure Trap','Treasure','Treasure Chest','Blink',
 ]);
-// Units always banned in Tab 2 (never shown as banning chips, always excluded from its results)
-const TAB2_ALWAYS_BANNED = new Set([
-  'Auranji','Cryolesia','Ice Dragon','Bunny Burrow','Infectia','Egg Basket Stem',
-]);
-
-// Tab 2's selectable unit pool (units that can appear in Tab 2 chips)
-const KEY_UNITS_TAB2 = [
-  // Main loadout
-  'Festive Glowthorn','Distort Flower','Snowman','Teslaflora','Confusiflora',
-  // Flex / fallback chain units
-  'Shockolate Flora','Rainbow Confusion Plant','Bounce Shroom','Firecore','Octoshroom',
-  'Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot',
-  // Always-banned (kept here for reference; filtered out of chips automatically)
-  'Auranji','Cryolesia','Ice Dragon','Bunny Burrow','Infectia','Egg Basket Stem',
-];
 
 function rebuildUnits() {
-  if (ACTIVE_TAB === 'tab2') {
-    // Tab 2 chips
-    const s2 = new Set(KEY_UNITS_TAB2.filter(u => !TAB2_ALWAYS_BANNED.has(u)));
-    const el2 = document.getElementById('chips-tab2');
-    el2.innerHTML = '';
-    Array.from(s2).sort().forEach(u => {
-      const btn = document.createElement('button');
-      btn.className = 'chip' + (TAB2_BANS.has(u) ? ' banned' : '');
-      btn.textContent = u; btn.dataset.unit = u;
-      btn.addEventListener('click', () => {
-        TAB2_BANS.has(u) ? TAB2_BANS.delete(u) : TAB2_BANS.add(u);
-        localStorage.setItem(LS_BANS2, JSON.stringify(Array.from(TAB2_BANS)));
-        refreshUI();
-      });
-      el2.appendChild(btn);
+  // Tab 1 chips — only show KEY_UNITS (no obs injection)
+  ALL_UNITS = KEY_UNITS.filter(u => !TAB1_ALWAYS_BANNED.has(u)).slice().sort((a,b) => a.localeCompare(b));
+  const el = document.getElementById('chips');
+  el.innerHTML = '';
+  ALL_UNITS.forEach(u => {
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (TAB1_BANS.has(u) ? ' banned' : '');
+    btn.textContent = u; btn.dataset.unit = u;
+    btn.addEventListener('click', () => {
+      TAB1_BANS.has(u) ? TAB1_BANS.delete(u) : TAB1_BANS.add(u);
+      localStorage.setItem(LS_BANS1, JSON.stringify(Array.from(TAB1_BANS)));
+      refreshUI();
     });
-  } else {
-    // Tab 1 chips — only show KEY_UNITS (no obs injection)
-    ALL_UNITS = KEY_UNITS.filter(u => !TAB1_ALWAYS_BANNED.has(u)).slice().sort((a,b) => a.localeCompare(b));
-    const el = document.getElementById('chips');
-    el.innerHTML = '';
-    ALL_UNITS.forEach(u => {
-      const btn = document.createElement('button');
-      btn.className = 'chip' + (TAB1_BANS.has(u) ? ' banned' : '');
-      btn.textContent = u; btn.dataset.unit = u;
-      btn.addEventListener('click', () => {
-        TAB1_BANS.has(u) ? TAB1_BANS.delete(u) : TAB1_BANS.add(u);
-        localStorage.setItem(LS_BANS1, JSON.stringify(Array.from(TAB1_BANS)));
-        refreshUI();
-      });
-      el.appendChild(btn);
-    });
-  }
+    el.appendChild(btn);
+  });
 }
 
 function toggleBan(u) {
   BANS.has(u) ? BANS.delete(u) : BANS.add(u);
-  localStorage.setItem(ACTIVE_TAB === 'tab2' ? LS_BANS2 : LS_BANS1, JSON.stringify(Array.from(BANS)));
+  localStorage.setItem(LS_BANS1, JSON.stringify(Array.from(BANS)));
   refreshUI();
 }
 
@@ -1777,31 +1669,12 @@ if (clearBansBtn) {
   });
 }
 
-const clearBansBtnTab2 = document.getElementById('clear-bans-tab2');
-if (clearBansBtnTab2) {
-  clearBansBtnTab2.addEventListener('click', () => {
-    TAB2_BANS.clear();
-    localStorage.setItem(LS_BANS2, JSON.stringify([]));
-    refreshUI();
-  });
-}
-
 // ── SEARCH BARS ──
 const banSearch = document.getElementById('ban-search');
 if (banSearch) {
   banSearch.addEventListener('input', () => {
     const q = banSearch.value.toLowerCase().replace(/\s+/g, '');
     document.querySelectorAll('#chips .chip').forEach(btn => {
-      const name = btn.dataset.unit.toLowerCase().replace(/\s+/g, '');
-      btn.classList.toggle('hidden', q.length > 0 && !name.includes(q));
-    });
-  });
-}
-const banSearchTab2 = document.getElementById('ban-search-tab2');
-if (banSearchTab2) {
-  banSearchTab2.addEventListener('input', () => {
-    const q = banSearchTab2.value.toLowerCase().replace(/\s+/g, '');
-    document.querySelectorAll('#chips-tab2 .chip').forEach(btn => {
       const name = btn.dataset.unit.toLowerCase().replace(/\s+/g, '');
       btn.classList.toggle('hidden', q.length > 0 && !name.includes(q));
     });
@@ -1847,14 +1720,13 @@ function fmtTime(min) {
 // RENDER PREDICTOR
 // ────────────────────────────────────────────
 function refreshUI() {
-  // Select correct elements based on active tab
-  const chipsEl = ACTIVE_TAB === 'tab2' ? document.getElementById('chips-tab2') : document.getElementById('chips');
-  const sumEl = ACTIVE_TAB === 'tab2' ? document.getElementById('ban-summary-tab2') : document.getElementById('ban-summary');
-  const outEl = ACTIVE_TAB === 'tab2' ? document.getElementById('results-tab2') : document.getElementById('results');
-  const metaEl = ACTIVE_TAB === 'tab2' ? document.getElementById('results-meta-tab2') : document.getElementById('results-meta');
+  const chipsEl = document.getElementById('chips');
+  const sumEl = document.getElementById('ban-summary');
+  const outEl = document.getElementById('results');
+  const metaEl = document.getElementById('results-meta');
 
   // chip states
-  const activeBans = ACTIVE_TAB === 'tab2' ? TAB2_BANS : TAB1_BANS;
+  const activeBans = TAB1_BANS;
   chipsEl.querySelectorAll('.chip')
     .forEach(c => c.classList.toggle('banned', activeBans.has(c.dataset.unit)));
 
@@ -1864,9 +1736,9 @@ function refreshUI() {
     : `<span class="ban-count">${activeBans.size}</span> unit${activeBans.size>1?'s':''} banned · `+Array.from(activeBans).join(' · ');
 
   // ── 1. Get the recommended team from the decision tree ──
-  const rec = ACTIVE_TAB === 'tab2' ? getRecommendedTeam_Tab2() : getRecommendedTeam();
+  const rec = getRecommendedTeam();
 
-  metaEl.textContent = ACTIVE_TAB === 'tab2' ? 'Tab 2 prediction' : 'Tab 1 prediction';
+  metaEl.textContent = 'Tab 1 prediction';
 
   outEl.innerHTML = `<div class="result-card rank-1" style="border-color:var(--purple)">
     <div class="result-head">
@@ -1949,6 +1821,7 @@ function getRecommendedTeam() {
   const firecoreBanned = isBanned('firecore');
   const stickpetalBanned    = isBanned('stickpetal') || isBanned('stick petal');
   const clusterplantBanned  = isBanned('clusterplant') || isBanned('cluster plant');
+  const holoBanned          = isBanned('holographicclover') || isBanned('holographic clover');
 
   // ── HELPER: first available unit from a list (not banned, not in use) ──
   const inUse = new Set();
@@ -1974,10 +1847,10 @@ function getRecommendedTeam() {
     return 'Snowmobile Shoveler'; // absolute last resort, should never happen
   }
 
-  // ── SNOWMOBILE SLOT (always present) ──
-  // Chain: Snowmobile → Festive Glowthorn → Starbud → Blinkbloom → Regen Flower → Prismleaf → Electric Beetroot
-  const snowChain = ['Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
-  const snow = pick('Snowmobile Shoveler', snowChain, 'Snowmobile');
+  // ── STARTER SLOT (always present) ──
+  // Chain: Tridenthra → Snowmobile → Festive Glowthorn → Starbud → Blinkbloom → Regen Flower → Prismleaf → Electric Beetroot
+  const snowChain = ['Snowmobile Shoveler','Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
+  const snow = pick('Tridenthra', snowChain, 'Starter');
 
   // ── BIG FOUR BAN COUNT ──
   const bigFourBanned = [infectiaBanned, teslaBanned, shockoBanned, bunnyBanned].filter(Boolean).length;
@@ -1995,12 +1868,12 @@ function getRecommendedTeam() {
     const glowtChain = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower'];
     const glowt = pick('Festive Glowthorn', glowtChain, 'Glowthorn');
 
-    // Vine Hair chain: Vine Hair → Subzero Stem → Bubbloom → Fan Flower → Hypnogaze Stem → Distort Flower
-    const vineChain = ['Subzero Stem','Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
-    const vine = pick('Vine Hair', vineChain, 'Vine Hair');
+    // Vine Hair chain: Subzero Stem → Vine Hair → Bubbloom → Fan Flower → Hypnogaze Stem → Distort Flower
+    const vineChain = ['Vine Hair','Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
+    const vine = pick('Subzero Stem', vineChain, 'Vine Hair');
 
     // Stick Petal slot → Egg Bask chain: Stick Petal → Egg Bask → Frost Golem → Iced Prismflower → Subzero → Ooga → Distort → Winterray
-    const eggChainFour = ['Egg Basket Stem','Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'];
+    const eggChainFour = ['Egg Basket Stem'];
     const egg = pick('Stick Petal', eggChainFour, 'Stick Petal');
 
     // Confusi chain: Confusi → RB Conf → Bubbloom → ERose
@@ -2031,12 +1904,12 @@ function getRecommendedTeam() {
     const glowtChain3 = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
     const glowt3 = pick('Festive Glowthorn', glowtChain3, 'Glowthorn');
     const keySlot = pick('Infectia', ['Shockolate Flora','Teslaflora','Bunny Burrow'], 'Key Unit');
-    const eggChain3 = ['Egg Basket Stem','Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'];
+    const eggChain3 = ['Egg Basket Stem'];
     const egg3 = pick('Stick Petal', eggChain3, 'Stick Petal');
     const confuChain3 = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
     const confu3 = pick('Confusiflora', confuChain3, 'Confusiflora');
-    const vineChain3 = ['Subzero Stem','Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
-    const vine3 = pick('Vine Hair', vineChain3, 'Vine Hair');
+    const vineChain3 = ['Vine Hair','Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
+    const vine3 = pick('Subzero Stem', vineChain3, 'Vine Hair');
     return {
       units: [glowt3, keySlot, egg3, confu3, vine3],
       note: '3 of Big Four banned → Glowthorn · ' + keySlot + ' · Egg Basket · Confusi · Vine Hair' +
@@ -2046,46 +1919,83 @@ function getRecommendedTeam() {
 
   // ════════════════════════════════════════
   // CASE: INFECTIA + BUNNY B BOTH BANNED
-  // Vine Hair · Subzero · Bubbloom order for the vine slot
-  // When Subzero is in the team, Snowmobile is the starter
-  // Loadout: Glowthorn · Shocko(→Tesla) · Confusi · Egg Bask · Vine Hair
+  // DEFAULT (nothing else relevant banned): Glowthorn · Holographic Clover · Overlord Stem · Stick Petal · Confusiflora
+  // If Holo Clover / Overlord Stem / Confusiflora is banned, switch to the fallback team below.
+  //   Key slot chain (Clusterplant → Shocko → Tesla → four-ban loadout) is shared by both fallback variants.
+  //   Stick Petal / Winterray each fall back to Egg Basket if banned.
   // ════════════════════════════════════════
   if (infectiaBanned && bunnyBanned) {
-    // Key slot: Shocko if available, Tesla only if Shocko banned, vine chain if both banned
-    // Do NOT use pick() here — Tesla being banned must not affect this slot if Shocko is free
-    let keyUnit;
-    if (!clusterplantBanned) {
-      keyUnit = 'Clusterplant'; inUse.add(keyUnit);
-    } else if (!shockoBanned) {
-      keyUnit = 'Shockolate Flora'; inUse.add(keyUnit);
-    } else if (!teslaBanned) {
-      keyUnit = 'Teslaflora'; inUse.add(keyUnit);
-    } else {
-      keyUnit = pick('Vine Hair', ['Hypnogaze Stem','Subzero Stem','Bubbloom','Fan Flower'], 'Shocko/Tesla');
+    const glowtChainKB = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
+
+    // Key unit chain: Clusterplant → Shocko → Tesla → (exhausted) null = drop to four-ban loadout
+    function keyUnitOrNull() {
+      if (!clusterplantBanned && !inUse.has('Clusterplant')) return 'Clusterplant';
+      if (!shockoBanned && !inUse.has('Shockolate Flora')) return 'Shockolate Flora';
+      if (!teslaBanned && !inUse.has('Teslaflora')) return 'Teslaflora';
+      return null;
     }
-    // Confusi chain
-    const confuChainBI = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
-    const confuBI = pick('Confusiflora', confuChainBI, 'Confusiflora');
-    // Vine Hair slot: Vine Hair → Subzero → Bubbloom → Fan Flower → Distort Flower
-    const vineChainBI = ['Subzero Stem','Bubbloom','Fan Flower','Distort Flower'];
-    const vineBI = pick('Vine Hair', vineChainBI, 'Vine Hair');
-    // If Subzero ended up in the vine slot, use Snowmobile as starter; otherwise Glowthorn
-    const useSubzeroInVine = vineBI === 'Subzero Stem';
-    let starterBI, eggBI;
-    if (useSubzeroInVine) {
-      starterBI = pick('Snowmobile Shoveler', ['Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'], 'Snowmobile');
-      const eggChainBI = ['Egg Basket Stem','Frost Golem','Iced Prismflower','Ooga Booga','Distort Flower','Winterray'];
-      eggBI = pick('Stick Petal', eggChainBI, 'Stick Petal');
-    } else {
-      starterBI = pick('Festive Glowthorn', ['Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'], 'Glowthorn');
-      const eggChainBI = ['Egg Basket Stem','Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'];
-      eggBI = pick('Stick Petal', eggChainBI, 'Stick Petal');
+
+    if (!holoBanned && !overlordBanned && !confBanned && !stickpetalBanned) {
+      // TEAM A — default for Infectia + Bunny B banned
+      const glowtA = pick('Festive Glowthorn', glowtChainKB, 'Glowthorn');
+      inUse.add('Holographic Clover');
+      inUse.add('Overlord Stem');
+      const stickA = pick('Stick Petal', ['Egg Basket Stem'], 'Stick Petal');
+      inUse.add('Confusiflora');
+      return {
+        units: [glowtA, 'Holographic Clover', 'Overlord Stem', stickA, 'Confusiflora'],
+        note: 'Infectia + Bunny B banned → Glowthorn · Holo Clover · Overlord Stem · ' + stickA + ' · Confusiflora' +
+              (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
+      };
     }
-    return {
-      units: [starterBI, keyUnit, confuBI, eggBI, vineBI],
-      note: 'Infectia + Bunny B banned → ' + starterBI + ' · Shocko · Confusi · Egg Basket · Vine Hair' +
-            (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
-    };
+
+    // TEAM B — Holo Clover / Overlord Stem / Confusiflora unavailable
+    const keyB = keyUnitOrNull();
+    if (keyB === null) {
+      // No backup left for the key slot — drop to the four-ban loadout
+      inUse.clear(); swaps.splice(0);
+      inUse.add(snow);
+      const glowtChain = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower'];
+      const glowt = pick('Festive Glowthorn', glowtChain, 'Glowthorn');
+      const vineChain = ['Vine Hair','Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
+      const vine = pick('Subzero Stem', vineChain, 'Vine Hair');
+      const eggChainFour = ['Egg Basket Stem'];
+      const egg = pick('Stick Petal', eggChainFour, 'Stick Petal');
+      const confuChainFour = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
+      const confu = pick('Confusiflora', confuChainFour, 'Confusiflora');
+      const bounceChainFour = ['Firecore','Bounce Shroom','Winterray','Octoshroom','Distort Flower'];
+      const bounce = pick('Overlord Stem', bounceChainFour, 'Bounce Shroom');
+      return {
+        units: [glowt, vine, egg, confu, bounce],
+        note: 'Infectia + Bunny B banned, no key unit left — four-ban loadout' +
+              (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
+      };
+    }
+    inUse.add(keyB);
+
+    if (!confBanned) {
+      // TEAM B1 — Confusiflora still available
+      const starterB = pick('Snowmobile Shoveler', glowtChainKB.filter(u => u !== 'Snowmobile Shoveler'), 'Starter');
+      const stickB = pick('Stick Petal', ['Egg Basket Stem'], 'Stick Petal');
+      inUse.add('Confusiflora');
+      const subzeroSlot = pick('Subzero Stem', [], 'Subzero');
+      return {
+        units: [starterB, stickB, 'Confusiflora', subzeroSlot, keyB],
+        note: 'Infectia + Bunny B banned, Holo/Overlord unavailable → Snowmobile · ' + stickB + ' · Confusiflora · Subzero · ' + keyB +
+              (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
+      };
+    } else {
+      // TEAM B2 — Confusiflora also banned
+      const glowtB = pick('Festive Glowthorn', glowtChainKB, 'Glowthorn');
+      const bubbB = pick('Bubbloom', [], 'Bubbloom');
+      const stickB2 = pick('Stick Petal', ['Egg Basket Stem'], 'Stick Petal');
+      const winterB = pick('Winterray', ['Egg Basket Stem'], 'Winterray');
+      return {
+        units: [glowtB, bubbB, stickB2, winterB, keyB],
+        note: 'Infectia + Bunny B + Confusiflora banned → Glowthorn · Bubbloom · ' + stickB2 + ' · ' + winterB + ' · ' + keyB +
+              (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
+      };
+    }
   }
 
   // ════════════════════════════════════════
@@ -2106,7 +2016,7 @@ function getRecommendedTeam() {
     const oogaChainSB = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
     // If Confusiflora is in the team, use Egg Basket Stem as the slow unit instead of Ooga
     const slowSB = (hypnoSB === 'Confusiflora')
-      ? pick('Stick Petal', ['Egg Basket Stem','Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'], 'Stick Petal')
+      ? pick('Stick Petal', ['Egg Basket Stem'], 'Stick Petal')
       : pick('Ooga Booga', oogaChainSB, 'Ooga');
     return {
       units: [glowtSB, shockoSB, hypnoSB, slowSB, 'Infectia'],
@@ -2129,7 +2039,7 @@ function getRecommendedTeam() {
     const oogaChainIB = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
     // If Confusiflora is in the team, use Egg Basket Stem as the slow unit instead of Ooga
     const slowIB = (hypnoIB === 'Confusiflora')
-      ? pick('Stick Petal', ['Egg Basket Stem','Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'], 'Stick Petal')
+      ? pick('Stick Petal', ['Egg Basket Stem'], 'Stick Petal')
       : pick('Ooga Booga', oogaChainIB, 'Ooga');
     return {
       units: [glowtIB, shockoIB, hypnoIB, slowIB, 'Bunny Burrow'],
@@ -2185,7 +2095,7 @@ function getRecommendedTeam() {
   // Special: if Bunny Burrow or Infectia is banned, prefer Distort Flower over Ooga Booga
   let ooga;
   if (hypno === 'Confusiflora') {
-    ooga = pick('Stick Petal', ['Egg Basket Stem','Frost Golem','Iced Prismflower','Subzero Stem','Ooga Booga','Distort Flower','Winterray'], 'Stick Petal');
+    ooga = pick('Stick Petal', ['Egg Basket Stem'], 'Stick Petal');
   } else if ((bunnyBanned || infectiaBanned) && !distortBanned) {
     // Bunny or Infectia banned → Distort Flower takes priority over Ooga
     const oogaChainPrio = (oogaBanned && distortBanned)
@@ -2205,179 +2115,6 @@ function getRecommendedTeam() {
   };
 }
 
-// ────────────────────────────────────────────
-// LEGACY TAB 2 LOGIC (used only by Tab 1 special-case fallback)
-// ────────────────────────────────────────────
-function getLegacyTab2TeamForTab1() {
-  const isBanned = key => {
-    const low = key.toLowerCase().replace(/\s+/g,'');
-    for (const b of TAB1_BANS) {
-      const bl = b.toLowerCase().replace(/\s+/g,'');
-      if (bl.includes(low) || low.includes(bl)) return true;
-    }
-    for (const ab of TAB1_ALWAYS_BANNED) {
-      const abl = ab.toLowerCase().replace(/\s+/g,'');
-      if (abl.includes(low) || low.includes(abl)) return true;
-    }
-    return false;
-  };
-
-  const inUse = new Set();
-  const swaps = [];
-  function pick(defaultUnit, chain, slotName) {
-    const candidates = [defaultUnit, ...chain];
-    for (const u of candidates) {
-      if (!isBanned(u.toLowerCase().replace(/\s+/g,'')) && !inUse.has(u)) {
-        inUse.add(u);
-        if (u !== defaultUnit) swaps.push(`${slotName} → ${u}`);
-        return u;
-      }
-    }
-    const notBanned2 = candidates.filter(u => !isBanned(u.toLowerCase().replace(/\s+/g,'')));
-    const fallback2 = notBanned2.find(u => !inUse.has(u)) || notBanned2[0];
-    if (fallback2) {
-      inUse.add(fallback2);
-      swaps.push(`${slotName} → ${fallback2} (exhausted)`);
-      return fallback2;
-    }
-    swaps.push(`${slotName} — all options banned`);
-    return 'Festive Glowthorn';
-  }
-
-  const slot1 = pick('Festive Glowthorn',
-    ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
-    'Glowthorn');
-  const slot2 = pick('Egg Basket Stem',
-    ['Auranji','Witch Leaf','Frost Golem','Ooga Booga','Distort Flower'],
-    'Egg Basket');
-  const slot3 = pick('Confusiflora',
-    ['Rainbow Confusion Plant','Bubbloom','Fan Flower'],
-    'Confusiflora');
-  const slot4 = pick('Transfig',
-    ['Hypnogaze Stem','Witch Leaf','Overlord Stem','Bounce Shroom','Winterray','Firecore','Octoshroom','Distort Flower'],
-    'Transfig');
-  const slot5 = pick('Shockolate Flora',
-    ['Overlord Stem','Bounce Shroom','Winterray','Firecore','Octoshroom','Distort Flower'],
-    'Shocko');
-
-  return {
-    units: [slot1, slot2, slot3, slot4, slot5],
-    note: swaps.length > 0 ? 'Tab 1 fallback · Swaps: ' + swaps.join(' · ') : 'Tab 1 fallback · optimal team'
-  };
-}
-
-// ────────────────────────────────────────────
-// TAB 2: TEAM PREDICTOR (v2)
-//
-// Always banned: Auranji · Cryolesia · Ice Dragon · Bunny Burrow · Infectia · Egg Basket Stem
-//
-// MAIN LOADOUT: Festive Glowthorn · Distort Flower · Snowman · Teslaflora · Confusiflora
-//
-// Glowthorn slot   → Tab 1's snow chain (Snowmobile → Starbud → Blinkbloom → Regen Flower → Prismleaf → Electric Beetroot)
-// Confusiflora slot, if banned → Tab 1's normal way down (Rainbow Confusion → Distort Flower → Bounce Shroom → Firecore → Octoshroom)
-// Teslaflora banned  (Distort free) → Shockolate Flora steps into the Tesla slot
-// Distort banned     (Tesla free)   → Shockolate Flora steps into the Distort slot
-// Snowman banned, OR 2+ of {Tesla, Distort, Shocko} banned (no backup left for the flex slots)
-//   → defer entirely to Tab 1's loadout logic (evaluated against Tab 2's current bans
-//      + Tab 2's always-banned list — effectively the same territory as Tab 1's Big Four
-//      ban framework, since Infectia/Bunny B are already always-banned here).
-// ────────────────────────────────────────────
-function getRecommendedTeam_Tab2() {
-  const isBanned = key => {
-    const low = key.toLowerCase().replace(/\s+/g,'');
-    for (const b of TAB2_BANS) {
-      const bl = b.toLowerCase().replace(/\s+/g,'');
-      if (bl.includes(low) || low.includes(bl)) return true;
-    }
-    for (const ab of TAB2_ALWAYS_BANNED) {
-      const abl = ab.toLowerCase().replace(/\s+/g,'');
-      if (abl.includes(low) || low.includes(abl)) return true;
-    }
-    return false;
-  };
-
-  const teslaBanned   = isBanned('teslaflora') || isBanned('tesla');
-  const distortBanned = isBanned('distort');
-  const snowmanBanned = isBanned('snowman');
-  const shockoBanned  = isBanned('shockolate') || isBanned('shockoflora');
-
-  // No backup left once 2+ of these three are banned — e.g. Tesla+Shocko banned
-  // means the Tesla slot has nowhere to go even though Distort is still free.
-  const flexBannedCount = [teslaBanned, distortBanned, shockoBanned].filter(Boolean).length;
-
-  // ════════════════════════════════════════
-  // FALLBACK: Snowman banned, OR no backup left among Tesla/Distort/Shocko
-  // → run Tab 1's loadout logic instead, but against a ban set that also
-  //   includes Tab 2's always-banned units (Infectia/Bunny B/Egg Bask),
-  //   since Tab 1's function only checks whatever Set is in `BANS`.
-  // ════════════════════════════════════════
-  if (snowmanBanned || flexBannedCount >= 2) {
-    const combinedBans = new Set([...TAB2_BANS, ...TAB2_ALWAYS_BANNED]);
-    const savedBANS = BANS;
-    BANS = combinedBans;
-    const fallback = getRecommendedTeam();
-    BANS = savedBANS;
-    const reason = snowmanBanned ? 'Snowman banned' : 'No backup left for Tesla/Distort/Shocko';
-    return {
-      units: fallback.units,
-      note: 'Tab 2 · ' + reason + ' → Tab 1 loadout · ' + fallback.note
-    };
-  }
-
-  const inUse = new Set();
-  const swaps = [];
-  function pick(defaultUnit, chain, slotName) {
-    const candidates = [defaultUnit, ...chain];
-    for (const u of candidates) {
-      if (!isBanned(u.toLowerCase().replace(/\s+/g,'')) && !inUse.has(u)) {
-        inUse.add(u);
-        if (u !== defaultUnit) swaps.push(`${slotName} → ${u}`);
-        return u;
-      }
-    }
-    const notBanned2 = candidates.filter(u => !isBanned(u.toLowerCase().replace(/\s+/g,'')));
-    const fallback2 = notBanned2.find(u => !inUse.has(u)) || notBanned2[0];
-    if (fallback2) {
-      inUse.add(fallback2);
-      swaps.push(`${slotName} → ${fallback2} (exhausted)`);
-      return fallback2;
-    }
-    swaps.push(`${slotName} — all options banned`);
-    return 'Festive Glowthorn';
-  }
-
-  // ── GLOWTHORN SLOT — Tab 1's snow chain ──
-  const glowt = pick('Festive Glowthorn',
-    ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'],
-    'Glowthorn');
-
-  // ── SNOWMAN SLOT — handled above if banned, so it's always free here ──
-  const snowman = 'Snowman';
-  inUse.add(snowman);
-
-  // ── TESLA / DISTORT SLOTS — only one can be banned here (both-banned is caught above) ──
-  let tesla, distort;
-  if (teslaBanned) {
-    tesla = pick('Shockolate Flora', [], 'Tesla → Shocko');
-    distort = pick('Distort Flower', [], 'Distort');
-  } else if (distortBanned) {
-    distort = pick('Shockolate Flora', [], 'Distort → Shocko');
-    tesla = pick('Teslaflora', [], 'Tesla');
-  } else {
-    tesla = pick('Teslaflora', [], 'Tesla');
-    distort = pick('Distort Flower', [], 'Distort');
-  }
-
-  // ── CONFUSIFLORA SLOT — Tab 1's normal way down if banned ──
-  const confu = pick('Confusiflora',
-    ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'],
-    'Confusiflora');
-
-  return {
-    units: [glowt, distort, snowman, tesla, confu],
-    note: swaps.length > 0 ? 'Tab 2 · Swaps: ' + swaps.join(' · ') : 'Tab 2 · No key bans — running optimal team'
-  };
-}
 
 // Kept for any legacy call sites
 function updateLoadoutAdvisor() {}
@@ -3036,15 +2773,10 @@ if (HARDCODED_OBS.length > 0) {
 // 2. Bans (restore before rebuildUnits so chips render correctly)
 const savedBans1 = localStorage.getItem(LS_BANS1);
 if (savedBans1) { JSON.parse(savedBans1).forEach(u => TAB1_BANS.add(u)); }
-const savedBans2 = localStorage.getItem(LS_BANS2);
-if (savedBans2) { JSON.parse(savedBans2).forEach(u => TAB2_BANS.add(u)); }
 
-// 3. Active tab (must set BANS pointer before rebuildUnits)
-const savedTab = localStorage.getItem(LS_TAB);
-if (savedTab === 'tab2') {
-  ACTIVE_TAB = 'tab2';
-  BANS = TAB2_BANS;
-}
+// 3. Active tab (single-tab build)
+ACTIVE_TAB = 'tab1';
+BANS = TAB1_BANS;
 
 // 4. Sheet cache
 const cachedSheet = localStorage.getItem(LS_SHEET);
@@ -3068,28 +2800,6 @@ if (savedUsername) {
   rebuildUnits();
   refreshUI();
 }
-
-// 6. Restore active tab UI state after DOM is ready
-const restoreTabUI = () => {
-  if (ACTIVE_TAB === 'tab2') {
-    const t1 = document.getElementById('tab-1-btn');
-    const t2 = document.getElementById('tab-2-btn');
-    const g1 = document.getElementById('main-grid-tab1');
-    const g2 = document.getElementById('main-grid-tab2');
-    const ab1 = document.getElementById('always-banned-tab1');
-    const ab2 = document.getElementById('always-banned-tab2');
-    if (t1) t1.classList.remove('active');
-    if (t2) t2.classList.add('active');
-    if (g1) g1.style.display = 'none';
-    if (g2) g2.style.display = '';
-    if (ab1) ab1.style.display = 'none';
-    if (ab2) ab2.style.display = 'flex';
-    rebuildUnits();
-    refreshUI();
-  }
-};
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', restoreTabUI);
-else restoreTabUI();
 
 // ────────────────────────────────────────────
 // FUZZY UNIT AUTOCORRECT
